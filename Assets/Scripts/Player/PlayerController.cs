@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
     private Rigidbody rb;
     private Animator ani;
+
+    public GameObject plyAppereance;
     
     Transform mainCam;
     
@@ -100,6 +102,7 @@ public class PlayerController : MonoBehaviour
         getPlyJump();
         getPlyCrouch();
         getPlyMovement();
+        getPlyInvisible();
         
         countdownTimer();
     }
@@ -144,6 +147,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.C))
         {
             OnCrouch(false);
+        }
+    }
+    
+    private void getPlyInvisible()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            OnInvisible(true);
+        }
+        
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            OnInvisible(false);
         }
     }
 
@@ -325,6 +341,26 @@ public class PlayerController : MonoBehaviour
         sliding = false;
     }
     
+    #endregion
+
+    #region Invisible
+
+    /*
+     * Currently just changes the player apperance to be inactive
+     * In final version will be more refinined
+     */
+    private void OnInvisible(bool invisible)
+    {
+        if (invisible)
+        {
+            plyAppereance.SetActive(false);   
+        }
+        else
+        {
+            plyAppereance.SetActive(true);  
+        }
+    }
+
     #endregion
 
     #region Timer
