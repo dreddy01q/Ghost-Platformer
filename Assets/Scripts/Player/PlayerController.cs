@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,21 +27,39 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float smoothTime = 0.2f;
     Vector3 playerMovement;
     
+    // Jumping
+    [SerializeField] float jumpForce = 10;
+    private float standardJumpForce = 10;
+    private float highJumpForce = 10;
+    private float longJumpForce = 10;
+    private float jumpVelocity = 10f;
+
+    private float longJumpVelocity = 10f;
+    private int jumpState = 0;      // 0=No Jump, 1=Jumping Up, 2=Coming Down, 3=Landed
+
+    private bool startJump = false;
+    
 
     #endregion
+    
 
+    private void setSpeeds()
+    {
+        
+        standMoveSpeed = moveSpeed;
+        crouchMoveSpeed = standMoveSpeed / 2;
+        slideMoveSpeed = standMoveSpeed * 1.5f;
+        longJumpVelocity = moveSpeed * 2f;
+    }
 
     private void Awake()
     {
+
         mainCam = Camera.main.transform;
         
         rb = GetComponent<Rigidbody>();
 
         rb.freezeRotation = true;
-
-        standMoveSpeed = moveSpeed;
-        crouchMoveSpeed = standMoveSpeed / 2;
-        slideMoveSpeed = standMoveSpeed * 1.5f;
         
     }
 
@@ -48,6 +67,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         SetTimer();
+
+        setSpeeds();
     }
 
     float currentSpeed;
@@ -59,6 +80,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         getPlyJump();
+        getPlyCrouch();
         getPlyMovement();
         
         countdownTimer();
@@ -77,7 +99,6 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        Debug.Log("Horizon: "+horizontal+" Vertical: " + vertical);
         
         playerMovement = new Vector3(horizontal, 0f, vertical);
     }
@@ -99,12 +120,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            crouching = true;
+            OnCrouch(true);
         }
         
         if (Input.GetKeyUp(KeyCode.C))
         {
-            crouching = false;
+            OnCrouch(false);
         }
     }
 
@@ -179,18 +200,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jump
-    
-    // Jumping
-    [SerializeField] float jumpForce = 10;
-    private float standardJumpForce = 10;
-    private float highJumpForce = 10;
-    private float longJumpForce = 10;
-    private float jumpVelocity = 10f;
-
-    private float longJumpVelocity = 10f;
-    private int jumpState = 0;      // 0=No Jump, 1=Jumping Up, 2=Coming Down, 3=Landed
-
-    private bool startJump = false;
     
     void OnJump(bool jump)
     {
