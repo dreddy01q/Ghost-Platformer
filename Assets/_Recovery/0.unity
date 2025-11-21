@@ -764,7 +764,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1273648837}
@@ -1012,31 +1012,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680486333425433755, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
       propertyPath: moveSpeed
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2680486333425433755, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
-      propertyPath: groundChecker
-      value: 
-      objectReference: {fileID: 1532055854}
-    - target: {fileID: 2680486333425433755, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
       propertyPath: rotationSpeed
-      value: 50
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3510545236884635588, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
       propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3510545236884635588, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3510545236884635588, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
-      propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8527123077407420429, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

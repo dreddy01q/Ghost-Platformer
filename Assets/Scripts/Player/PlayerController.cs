@@ -1,14 +1,20 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+
+    #region Variables
+
     public PlayerInput playerInput;
     private Rigidbody rb;
     private Animator ani;
     
     Transform mainCam;
+    
+    public GroundChecker groundChecker;
     
 
     [Header("Movement Settings")]
@@ -19,6 +25,10 @@ public class PlayerController : MonoBehaviour
     private float slideMoveSpeed = 5;
     [SerializeField] float smoothTime = 0.2f;
     Vector3 playerMovement;
+    
+
+    #endregion
+
 
     private void Awake()
     {
@@ -37,7 +47,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        SetTimer();
     }
 
     float currentSpeed;
@@ -50,7 +60,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        getPlyJump();
         getPlyMovement();
+        
+        countdownTimer();
     }
 
     private void getPlyMovement()
@@ -64,12 +77,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            
+            OnJump(true);
         }
         
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            
+            OnJump(false);
         }
     }
 
@@ -89,6 +102,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         performMovement();
+        performJump();
     }
 
     #endregion
@@ -131,6 +145,120 @@ public class PlayerController : MonoBehaviour
 
     #endregion
     
+    #region Timers
+    
+    private TimerCountdown jumpTimer;
+    private float jumpDuration = 0.1f;
+
+    void SetTimer()
+    {
+        jumpTimer = new TimerCountdown(jumpDuration);
+        jumpTimer.OnTimerStart += () => jumpVelocity = jumpForce;
+        jumpTimer.OnTimerStop += () => jumpState = 2;
+    }
+
+    void countdownTimer()
+    {
+        jumpTimer.countdown(Time.deltaTime);
+    }
+
+    #endregion
+
+    #region Jump
+    
+    // Jumping
+    [SerializeField] float jumpForce = 10;
+    private float standardJumpForce = 10;
+    private float highJumpForce = 10;
+    private float longJumpForce = 10;
+    private float jumpVelocity = 10f;
+
+    private float longJumpVelocity = 10f;
+    private int jumpState = 0;      // 0=No Jump, 1=Jumping Up, 2=Coming Down, 3=Landed
+
+    private bool startJump = false;
+    
+    void OnJump(bool jump)
+    {
+        // Player is starting to jump and is on the ground and not already jumping
+        if (jump && !jumpTimer.IsRunning && groundChecker.IsGrounded)
+        {
+            // Sets jump values based on player status
+            setJumpValues();
+            
+            // Starts the jump
+            startJumpSequence();
+        }
+        else if (!jump && jumpTimer.IsRunning)
+        {
+            jumpTimer.Stop();
+
+            jumpState = 2;
+        }
+    }
+
+    private void startJumpSequence()
+    {
+        startJump = true;
+        jumpState = 1;
+        jumpTimer.Start();
+    }
+
+    private void setJumpValues()
+    {
+        if (crouching)
+        {
+            // High Jump from still crouch
+            if (rb.linearVelocity.magnitude == 0)
+            {
+                jumpForce = highJumpForce;
+            }
+
+            // Long Jump from sliding
+            if (sliding)
+            {
+                moveSpeed = longJumpVelocity;
+                jumpForce = longJumpForce;
+            }
+        }
+        else
+        {
+            jumpForce = standardJumpForce;
+        }
+    }
+    
+
+    public void performJump()
+    {
+        // If not jumping and grounded, keep jump velocity at 0
+
+
+        // Grounded and not jumping, velocity is 0
+        if (!jumpTimer.IsRunning && groundChecker.IsGrounded)
+        {
+            jumpVelocity = ZeroF;
+
+            if (jumpState == 2) 
+            {
+                jumpState = 3;
+            }
+
+            return;
+        }
+
+        // Jump Timer has ran out
+        if (!jumpTimer.IsRunning)
+        {
+            Debug.Log("Jump");
+            // Gravity takes over
+            jumpVelocity += Physics.gravity.y * 2f * Time.fixedDeltaTime;
+        }
+        
+        
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpVelocity, rb.linearVelocity.z);
+    }
+
+    #endregion
     
     #region Crouch and Slide
     
