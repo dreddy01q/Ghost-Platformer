@@ -108,9 +108,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d60453862f5bef4899442a24191ed77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 100
+  groundChecker: {fileID: 0}
+  moveSpeed: 300
   rotationSpeed: 100
   smoothTime: 0.2
+  jumpForce: 10
 --- !u!54 &3510545236884635588
 Rigidbody:
   m_ObjectHideFlags: 0

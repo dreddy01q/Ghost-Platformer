@@ -53,9 +53,7 @@ public class PlayerController : MonoBehaviour
     float currentSpeed;
     float velocity;
     float ZeroF = 0f;
-
-
-    #region Updates
+    
 
     // Update is called once per frame
     void Update()
@@ -65,11 +63,22 @@ public class PlayerController : MonoBehaviour
         
         countdownTimer();
     }
+    
+    private void FixedUpdate()
+    {
+        performMovement();
+        performJump();
+    }
 
+
+    #region Player Input
+    
     private void getPlyMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+        Debug.Log("Horizon: "+horizontal+" Vertical: " + vertical);
+        
         playerMovement = new Vector3(horizontal, 0f, vertical);
     }
     
@@ -86,7 +95,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void handleCrouch()
+    private void getPlyCrouch()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -99,11 +108,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        performMovement();
-        performJump();
-    }
+    
 
     #endregion
 
@@ -117,6 +122,8 @@ public class PlayerController : MonoBehaviour
         {
             handleRotation(adjustedDirection);
             performHorizontalMovement(adjustedDirection);
+            
+            SmoothSpeed(adjustedDirection.magnitude);
         }
         else
         {
@@ -138,8 +145,15 @@ public class PlayerController : MonoBehaviour
     void performHorizontalMovement(Vector3 adjustedDirection)
     {
         Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
+        
+//        Debug.Log(velocity);
 
         rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
+    }
+    
+    void SmoothSpeed(float value)
+    {
+        currentSpeed = Mathf.SmoothDamp(currentSpeed, value, ref velocity, smoothTime);
     }
 
 
