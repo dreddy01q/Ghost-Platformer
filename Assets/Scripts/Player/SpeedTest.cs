@@ -15,7 +15,9 @@ public class SpeedTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "Speed: " + this.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude;
+        float speed = gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude;
+        float value=Mathf.Round(speed);
+        text.text = "Speed: " + value;
 
         
     }

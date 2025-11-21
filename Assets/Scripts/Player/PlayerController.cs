@@ -39,18 +39,12 @@ public class PlayerController : MonoBehaviour
 
     private bool startJump = false;
     
-
-    #endregion
+    float currentSpeed;
+    float velocity;
+    float ZeroF = 0f;
     
 
-    private void setSpeeds()
-    {
-        
-        standMoveSpeed = moveSpeed;
-        crouchMoveSpeed = standMoveSpeed / 2;
-        slideMoveSpeed = standMoveSpeed * 1.5f;
-        longJumpVelocity = moveSpeed * 2f;
-    }
+    #endregion
 
     private void Awake()
     {
@@ -68,12 +62,36 @@ public class PlayerController : MonoBehaviour
     {
         SetTimer();
 
-        setSpeeds();
+        SetSpeeds();
+        SetJumps();;
+    }
+    
+    
+    #region Start Set Values
+    
+    void SetTimer()
+    {
+        jumpTimer = new TimerCountdown(jumpDuration);
+        jumpTimer.OnTimerStart += () => jumpVelocity = jumpForce;
+        jumpTimer.OnTimerStop += () => jumpState = 2;
     }
 
-    float currentSpeed;
-    float velocity;
-    float ZeroF = 0f;
+    private void SetSpeeds()
+    {
+        standMoveSpeed = moveSpeed;
+        crouchMoveSpeed = standMoveSpeed / 2;
+        slideMoveSpeed = standMoveSpeed * 1.5f;
+        longJumpVelocity = moveSpeed * 2f;
+    }
+
+    private void SetJumps()
+    {
+        standardJumpForce = jumpForce;
+        highJumpForce = jumpForce * 1.5f;
+        longJumpForce = jumpForce * 0.75f;
+    }
+
+    #endregion
     
 
     // Update is called once per frame
@@ -180,24 +198,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
     
-    #region Timers
-    
-    private TimerCountdown jumpTimer;
-    private float jumpDuration = 0.1f;
-
-    void SetTimer()
-    {
-        jumpTimer = new TimerCountdown(jumpDuration);
-        jumpTimer.OnTimerStart += () => jumpVelocity = jumpForce;
-        jumpTimer.OnTimerStop += () => jumpState = 2;
-    }
-
-    void countdownTimer()
-    {
-        jumpTimer.countdown(Time.deltaTime);
-    }
-
-    #endregion
 
     #region Jump
     
@@ -231,17 +231,16 @@ public class PlayerController : MonoBehaviour
     {
         if (crouching)
         {
-            // High Jump from still crouch
-            if (rb.linearVelocity.magnitude == 0)
-            {
-                jumpForce = highJumpForce;
-            }
 
             // Long Jump from sliding
             if (sliding)
             {
                 moveSpeed = longJumpVelocity;
                 jumpForce = longJumpForce;
+            }
+            else
+            {
+                jumpForce = highJumpForce;
             }
         }
         else
@@ -285,14 +284,17 @@ public class PlayerController : MonoBehaviour
     
     #region Crouch and Slide
     
+    // Crouch and slide variables
     bool crouching = false;
+    float slowSpeed = 300;
+    bool sliding = false;
     void OnCrouch(bool crouch)
     {
         crouching = crouch;
 
         if (crouching)
         { 
-            if (rb.linearVelocity.magnitude > 0)
+            if (Mathf.Round(rb.linearVelocity.magnitude) > 0)
             {
                 moveSpeed = slideMoveSpeed;
                 StartCoroutine(SlowToSlide());
@@ -309,9 +311,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float slowSpeed = 300;
-    bool sliding = false;
-
+    /*
+     * Gradually slower player down to crouch if moving
+     */
     IEnumerator SlowToSlide()
     {
         while (moveSpeed > crouchMoveSpeed && crouching) {
@@ -325,4 +327,15 @@ public class PlayerController : MonoBehaviour
     
     #endregion
 
+    #region Timer
+    
+    private TimerCountdown jumpTimer;
+    private float jumpDuration = 0.1f;
+    
+    void countdownTimer()
+    {
+        jumpTimer.countdown(Time.deltaTime);
+    }
+
+    #endregion
 }
