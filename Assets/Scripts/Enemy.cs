@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
     private void moveTowardsPlayer()
     {
         transform.position = Vector3.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
+        //transform.position =Vector2.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
     }
 
     private void checkAttack()
