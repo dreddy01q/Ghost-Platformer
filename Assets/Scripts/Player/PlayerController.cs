@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Animator ani;
 
+    public GameObject scareOrigin;
     public GameObject plyAppereance;
     
     Transform mainCam;
@@ -48,9 +49,21 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Animator Varibales
+    
+    
+    private static readonly int IdleState = Animator.StringToHash("Base Layer.idle");
+    private static readonly int MoveState = Animator.StringToHash("Base Layer.move");
+    private static readonly int SurprisedState = Animator.StringToHash("Base Layer.surprised");
+    private static readonly int AttackState = Animator.StringToHash("Base Layer.attack_shift");
+    private static readonly int DissolveState = Animator.StringToHash("Base Layer.dissolve");
+    private static readonly int AttackTag = Animator.StringToHash("Attack");
+
+    #endregion
+
     private void Awake()
     {
-
+        ani = GetComponent<Animator>();
         mainCam = Camera.main.transform;
         
         rb = GetComponent<Rigidbody>();
@@ -103,6 +116,7 @@ public class PlayerController : MonoBehaviour
         getPlyCrouch();
         getPlyMovement();
         getPlyInvisible();
+        getPlyScare();
         
         countdownTimer();
     }
@@ -162,6 +176,19 @@ public class PlayerController : MonoBehaviour
             OnInvisible(false);
         }
     }
+    
+    private void getPlyScare()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            OnScare(true);
+        }
+        
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            OnScare(false);
+        }
+    }
 
     
 
@@ -184,6 +211,8 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector3(ZeroF, rb.linearVelocity.y, ZeroF);
         }
+        
+        ani.SetFloat("move", rb.linearVelocity.magnitude);
     }
 
     void handleRotation(Vector3 adjustedDirection)
@@ -241,6 +270,8 @@ public class PlayerController : MonoBehaviour
         startJump = true;
         jumpState = 1;
         jumpTimer.Start();
+        
+        ani.CrossFade(SurprisedState, 0.1f, 0, 0);
     }
 
     private void setJumpValues()
@@ -360,6 +391,26 @@ public class PlayerController : MonoBehaviour
             plyAppereance.SetActive(true);  
         }
     }
+
+    #endregion
+
+    #region Attack/Scare
+
+    private float attackRange = 5;
+    void OnScare(bool scare)
+    {
+        RaycastHit hit;
+        Ray downRay = new Ray(scareOrigin.transform.position, Vector3.forward);
+
+        Debug.Log("Attempt scare");
+        if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
+        {
+            Debug.Log("Object hit");
+        }
+        
+        Debug.DrawRay(scareOrigin.transform.position, Vector3.forward, Color.red,5);
+    }
+    
 
     #endregion
 
