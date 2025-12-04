@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-
     #region Variables
 
     public PlayerInput playerInput;
@@ -136,6 +135,8 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         
         playerMovement = new Vector3(horizontal, 0f, vertical);
+        
+        Debug.Log(playerMovement);
     }
     
     private void getPlyJump()
@@ -202,7 +203,7 @@ public class PlayerController : MonoBehaviour
 
         if (adjustedDirection.magnitude > ZeroF)
         {
-            handleRotation(adjustedDirection);
+            //handleRotation(adjustedDirection);
             performHorizontalMovement(adjustedDirection);
             
             SmoothSpeed(adjustedDirection.magnitude);
@@ -228,9 +229,9 @@ public class PlayerController : MonoBehaviour
      */
     void performHorizontalMovement(Vector3 adjustedDirection)
     {
-        Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
+        //Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
         
-//        Debug.Log(velocity);
+        Vector3 velocity = playerMovement * (moveSpeed * Time.deltaTime);
 
         rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
     }
@@ -243,7 +244,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
     
-
     #region Jump
     
     void OnJump(bool jump)

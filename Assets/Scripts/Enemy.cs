@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    private NavMeshAgent agent;
     private GameObject player;
 
     public float detectRange = 10;
@@ -11,6 +13,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         player=GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -39,7 +42,8 @@ public class Enemy : MonoBehaviour
 
     private void moveTowardsPlayer()
     {
-        transform.position = Vector3.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
+        agent.SetDestination(player.transform.position);
+        //transform.position = Vector3.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
         //transform.position =Vector2.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
     }
 
