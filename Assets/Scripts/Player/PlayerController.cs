@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
     private Rigidbody rb;
     private Animator ani;
+    private Collider collider;
 
     public GameObject scareOrigin;
     public GameObject plyAppereance;
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour
     float velocity;
     float ZeroF = 0f;
     
+    
+    private GameManage gameManage;
 
     #endregion
 
@@ -58,6 +61,12 @@ public class PlayerController : MonoBehaviour
     private static readonly int DissolveState = Animator.StringToHash("Base Layer.dissolve");
     private static readonly int AttackTag = Animator.StringToHash("Attack");
 
+    public GameManage GameManage
+    {
+        get => gameManage;
+        set => gameManage = value;
+    }
+
     #endregion
 
     private void Awake()
@@ -68,6 +77,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         rb.freezeRotation = true;
+        
+        GameManage=GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
         
     }
 
@@ -136,7 +147,7 @@ public class PlayerController : MonoBehaviour
         
         playerMovement = new Vector3(horizontal, 0f, vertical);
         
-        Debug.Log(playerMovement);
+//        Debug.Log(playerMovement);
     }
     
     private void getPlyJump()
@@ -197,13 +208,16 @@ public class PlayerController : MonoBehaviour
 
     #region Movement
 
+    private Vector3 plyDirection;
+
     void performMovement()
     {
         var adjustedDirection = Quaternion.AngleAxis(mainCam.eulerAngles.y, Vector3.up) * playerMovement;
+        plyDirection = Quaternion.AngleAxis(mainCam.eulerAngles.y, Vector3.up) * Vector3.forward;
 
         if (adjustedDirection.magnitude > ZeroF)
         {
-            //handleRotation(adjustedDirection);
+            handleRotation(adjustedDirection);
             performHorizontalMovement(adjustedDirection);
             
             SmoothSpeed(adjustedDirection.magnitude);
@@ -213,7 +227,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(ZeroF, rb.linearVelocity.y, ZeroF);
         }
         
-        ani.SetFloat("move", rb.linearVelocity.magnitude);
+        ani.SetFloat("move", adjustedDirection.magnitude);
     }
 
     void handleRotation(Vector3 adjustedDirection)
@@ -229,11 +243,14 @@ public class PlayerController : MonoBehaviour
      */
     void performHorizontalMovement(Vector3 adjustedDirection)
     {
-        //Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
+        if (playerMovement.z != 0)
+        {
+            Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
         
-        Vector3 velocity = playerMovement * (moveSpeed * Time.deltaTime);
+            //Vector3 velocity = playerMovement * (moveSpeed * Time.deltaTime);
 
-        rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
+            rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
+        }
     }
     
     void SmoothSpeed(float value)
@@ -338,6 +355,8 @@ public class PlayerController : MonoBehaviour
     void OnCrouch(bool crouch)
     {
         crouching = crouch;
+        
+        ani.SetBool("crouch", crouch);
 
         if (crouching)
         { 
@@ -403,12 +422,13 @@ public class PlayerController : MonoBehaviour
         Ray downRay = new Ray(scareOrigin.transform.position, Vector3.forward);
 
         Debug.Log("Attempt scare");
-        if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
+        //if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
+        if (Physics.SphereCast(transform.position, 5, plyDirection, out hit, attackRange))
         {
             Debug.Log("Object hit");
         }
         
-        Debug.DrawRay(scareOrigin.transform.position, Vector3.forward, Color.red,5);
+        Debug.DrawRay(scareOrigin.transform.position, plyDirection, Color.red,5);
     }
     
 

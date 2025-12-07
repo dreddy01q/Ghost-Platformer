@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineThirdPersonFollow
-  Damping: {x: 0.1, y: 0.5, z: 0.3}
+  Damping: {x: 0.5, y: 0.5, z: 0.5}
   ShoulderOffset: {x: 0.8, y: 0.3, z: 0}
   VerticalArmLength: 1.07
   CameraSide: 0.818
@@ -281,6 +281,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8527123077407420429}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3527799411743580110}
   m_SourcePrefab: {fileID: 100100000, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
 --- !u!1 &113816195454673271 stripped
 GameObject:
@@ -325,7 +328,7 @@ MonoBehaviour:
   plyAppereance: {fileID: 1987373083892960939}
   groundChecker: {fileID: 1286375278310765456}
   moveSpeed: 300
-  rotationSpeed: 100
+  rotationSpeed: 200
   smoothTime: 0.2
   jumpForce: 10
 --- !u!54 &3510545236884635588
@@ -378,6 +381,19 @@ CapsuleCollider:
   m_Height: 0.96162784
   m_Direction: 1
   m_Center: {x: 0, y: 0.5321885, z: -0.008603096}
+--- !u!114 &3527799411743580110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113816195454673271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7776e0059ca198e42a690624a5d12c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  healthMax: 3
 --- !u!4 &783498338987375565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
