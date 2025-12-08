@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -415,6 +416,7 @@ public class PlayerController : MonoBehaviour
 
     #region Attack/Scare
 
+    public int attackDamage = 5;
     private float attackRange = 5;
     void OnScare(bool scare)
     {
@@ -422,15 +424,20 @@ public class PlayerController : MonoBehaviour
         Ray downRay = new Ray(scareOrigin.transform.position, Vector3.forward);
 
         Debug.Log("Attempt scare");
-        //if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
-        if (Physics.SphereCast(transform.position, 5, plyDirection, out hit, attackRange))
+        ani.SetTrigger("scare");
+        
+        if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
+        //if (Physics.SphereCast(transform.position, 5, plyDirection, out hit, attackRange))
         {
             Debug.Log("Object hit");
+            if (hit.collider.tag == "Enemy")
+            {
+                hit.collider.gameObject.GetComponent<HealthSystem>().takeDamage(attackDamage);
+            }
         }
         
         Debug.DrawRay(scareOrigin.transform.position, plyDirection, Color.red,5);
     }
-    
 
     #endregion
 

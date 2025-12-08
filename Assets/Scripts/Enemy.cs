@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +10,7 @@ public class Enemy : MonoBehaviour
     public float detectRange = 10;
     public float moveSpeed = 3;
     
-    
+
     [Header("Attack Settings")]
     [SerializeField] int attackDamage = 1; 
     [SerializeField] float attackRange = 0.5f;
@@ -19,12 +20,18 @@ public class Enemy : MonoBehaviour
     private Animator ani;
 
     private Rigidbody rb;
-    
+
+    public Animator Ani
+    {
+        get => ani;
+        set => ani = value;
+    }
+
     void Start()
     {
         player=GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
-        ani = GetComponent<Animator>();
+        Ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -74,8 +81,12 @@ public class Enemy : MonoBehaviour
 
     private void moveTowardsPlayer()
     {
-        agent.SetDestination(player.transform.position);
-        ani.SetFloat("movement",rb.linearVelocity.magnitude);
+        // Sets the enemy movement animation
+        Ani.SetFloat("movement",rb.linearVelocity.magnitude);
+
+        // Enemy will run towards the player and stop just in front of them
+        Vector3 targetDirection = player.transform.position - transform.forward;
+        agent.SetDestination(targetDirection);
     }
     
     
@@ -93,7 +104,7 @@ public class Enemy : MonoBehaviour
     {
         attackCooldownCount = attackCooldown;
         
-        ani.SetTrigger("attack");
+        Ani.SetTrigger("attack");
         
         RaycastHit hit;
         
