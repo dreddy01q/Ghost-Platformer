@@ -15,15 +15,20 @@ public class Enemy : MonoBehaviour
     [SerializeField] float attackRange = 0.5f;
     [SerializeField] float attackCooldown = 3;
     private float attackCooldownCount = 0;
+
+    private Animator ani;
+
+    private Rigidbody rb;
     
     void Start()
     {
         player=GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
+        ani = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ManualUpdate()
     {
         enemyMovement();
     }
@@ -70,8 +75,7 @@ public class Enemy : MonoBehaviour
     private void moveTowardsPlayer()
     {
         agent.SetDestination(player.transform.position);
-        //transform.position = Vector3.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
-        //transform.position =Vector2.MoveTowards(this.transform.position,player.transform.position,moveSpeed*Time.deltaTime);
+        ani.SetFloat("movement",rb.linearVelocity.magnitude);
     }
     
     
@@ -88,6 +92,8 @@ public class Enemy : MonoBehaviour
     private void enemyAttack()
     {
         attackCooldownCount = attackCooldown;
+        
+        ani.SetTrigger("attack");
         
         RaycastHit hit;
         

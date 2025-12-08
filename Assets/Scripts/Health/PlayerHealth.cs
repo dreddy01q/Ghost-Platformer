@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerHealth : HealthSystem
 {
     private PlayerController playerController;
+    
+    public ParticleSystem smokeParticle;
+    
     void Start()
     {
         playerController = GetComponent<PlayerController>();
@@ -17,6 +20,7 @@ public class PlayerHealth : HealthSystem
     {
         base.defeated();
         playerController.enabled = false;
+        smokeParticle.Play();
         playerController.GameManage.endGame(false);
     }
 }
