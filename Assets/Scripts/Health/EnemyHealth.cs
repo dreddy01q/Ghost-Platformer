@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : HealthSystem
@@ -22,8 +23,19 @@ public class EnemyHealth : HealthSystem
     public override void defeated()
     {
         base.defeated();
-        enemyController.enabled = false;
+        enemyController.defeatEnemy();
         smokeParticle.Play();
-        this.gameObject.SetActive(false);
+
+        StartCoroutine(WaitAndDestroy());
+
+        //this.gameObject.SetActive(false);
     }
+    
+    IEnumerator WaitAndDestroy()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(this.gameObject);
+    }
+    
+    
 }

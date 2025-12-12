@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     private Animator ani;
 
     private Rigidbody rb;
+    
+    private bool defeated = false;
 
     public Animator Ani
     {
@@ -37,8 +39,10 @@ public class Enemy : MonoBehaviour
 
     public void ManualUpdate()
     {
-        
-        enemyMovement();
+        if (!defeated)
+        {
+            enemyMovement();
+        }
     }
 
     void enemyMovement()
@@ -97,6 +101,12 @@ public class Enemy : MonoBehaviour
         Debug.Log(angle);
         
         return;
+    }
+
+    public void defeatEnemy()
+    {
+        defeated = true;
+        Ani.SetFloat("movement",0);
     }
     
     
