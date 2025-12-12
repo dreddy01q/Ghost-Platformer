@@ -68,6 +68,12 @@ public class PlayerController : MonoBehaviour
         set => gameManage = value;
     }
 
+    public bool IsInvisible
+    {
+        get => isInvisible;
+        set => isInvisible = value;
+    }
+
     #endregion
 
     private void Awake()
@@ -396,15 +402,20 @@ public class PlayerController : MonoBehaviour
 
     #region Invisible
 
+
+    private bool isInvisible = false;
+
     /*
      * Currently just changes the player apperance to be inactive
      * In final version will be more refinined
      */
     private void OnInvisible(bool invisible)
     {
+        IsInvisible = invisible;
+        
         if (invisible)
         {
-            plyAppereance.SetActive(false);   
+            plyAppereance.SetActive(false);
         }
         else
         {
