@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
 
     public void ManualUpdate()
     {
+        
         enemyMovement();
     }
 
@@ -87,6 +88,15 @@ public class Enemy : MonoBehaviour
         // Enemy will run towards the player and stop just in front of them
         Vector3 targetDirection = player.transform.position - transform.forward;
         agent.SetDestination(targetDirection);
+    }
+
+    private void getPlayerRotation()
+    {
+
+        float angle=Vector3.Angle(transform.position, player.transform.position);
+        Debug.Log(angle);
+        
+        return;
     }
     
     

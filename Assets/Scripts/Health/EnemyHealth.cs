@@ -13,6 +13,7 @@ public class EnemyHealth : HealthSystem
     
     public override void takeDamage(int damage)
     {
+        Debug.Log("Take Damage");
         base.takeDamage(damage);
         enemyController.Ani.SetFloat("health", Health);
         enemyController.Ani.SetTrigger("hit");

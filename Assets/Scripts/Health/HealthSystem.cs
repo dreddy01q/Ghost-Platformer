@@ -7,7 +7,7 @@ public class HealthSystem : MonoBehaviour
     
     private int health;
 
-    private void Start()
+    private void Awake()
     {
         health = healthMax;
     }
