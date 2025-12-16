@@ -20,6 +20,13 @@ public class GameManage : MonoBehaviour
         CanvasManager = Canvas.GetComponent<CanvasManager>();
     }
 
+    public void GhostFound()
+    {
+        GhostManager.GhostFound();
+        string message = GhostManager.getGhostCountString() + " ghosts found.";
+        CanvasManager.showText(message);
+    }
+
     public void endGame(bool win)
     {
         if (win)

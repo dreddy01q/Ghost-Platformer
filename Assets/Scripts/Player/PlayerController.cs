@@ -357,7 +357,7 @@ public class PlayerController : MonoBehaviour
     
     // Crouch and slide variables
     bool crouching = false;
-    float slowSpeed = 300;
+    float slowSpeed = 150;
     bool sliding = false;
     void OnCrouch(bool crouch)
     {
