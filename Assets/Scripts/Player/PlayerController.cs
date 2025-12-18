@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Animator ani;
     private Collider collider;
+    
+    private PlayerSoundEffects soundEffects;
 
     public GameObject scareOrigin;
     public GameObject plyAppereance;
@@ -82,6 +84,7 @@ public class PlayerController : MonoBehaviour
         mainCam = Camera.main.transform;
         
         rb = GetComponent<Rigidbody>();
+        soundEffects = GetComponent<PlayerSoundEffects>();
 
         rb.freezeRotation = true;
         
@@ -296,6 +299,8 @@ public class PlayerController : MonoBehaviour
         jumpTimer.Start();
         
         ani.CrossFade(SurprisedState, 0.1f, 0, 0);
+
+        soundEffects.PlaySound(soundEffects.SoundType_Jump);
     }
 
     private void setJumpValues()
@@ -436,7 +441,8 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("Attempt scare");
         ani.SetTrigger("scare");
-        
+        soundEffects.PlaySound(soundEffects.SoundType_Attack);
+
         if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
         //if (Physics.SphereCast(transform.position, 5, plyDirection, out hit, attackRange))
         {
