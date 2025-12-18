@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     private NavMeshAgent agent;
     private GameObject player;
+    private PlayerController PlayerControler;
 
     public float detectRange = 10;
     public float moveSpeed = 3;
@@ -32,6 +33,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         player=GameObject.FindGameObjectWithTag("Player");
+        PlayerControler= player.GetComponent<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
         Ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -39,9 +41,17 @@ public class Enemy : MonoBehaviour
 
     public void ManualUpdate()
     {
-        if (!defeated)
+        if (!defeated && !PlayerControler.IsInvisible)
         {
+            //agent.enabled = true;
             enemyMovement();
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.ResetPath();
+            rb.linearVelocity = Vector3.zero;
+            //agent.enabled = false;
         }
     }
 
@@ -133,7 +143,7 @@ public class Enemy : MonoBehaviour
         {
             if (hit.collider.tag == "Player")
             {
-                hit.collider.GetComponent<HealthSystem>().takeDamage(attackDamage);
+                //hit.collider.GetComponent<HealthSystem>().takeDamage(attackDamage);
             }
             else
             {
