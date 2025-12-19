@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class KeyDoor : MonoBehaviour
 {
-    public int keyNumber;
-    
-    
+    private bool keyHeld = false;
+    public string text = "Key Acquired";
+
+    GameManage GameManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        GameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
 
     // Update is called once per frame
@@ -18,13 +20,19 @@ public class KeyDoor : MonoBehaviour
         
     }
 
+    public void KeyAcquired()
+    {
+        GameManager.CanvasManager.showText(text);
+        keyHeld = true;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Player")
         {
-            if (Input.GetKeyDown("E"))
+            if (keyHeld)
             {
-                //other.gameObject.GetComponent<PlayerInventory>().checkInventory("Key", 1);
+                Destroy(gameObject);
             }
         }
     }

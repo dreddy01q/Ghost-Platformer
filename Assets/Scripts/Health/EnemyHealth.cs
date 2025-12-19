@@ -6,24 +6,26 @@ public class EnemyHealth : HealthSystem
     private Enemy enemyController;
     
     public ParticleSystem smokeParticle;
-    
+
+    public Enemy EnemyController { get => enemyController; set => enemyController = value; }
+
     void Start()
     {
-        enemyController = GetComponent<Enemy>();
+        EnemyController = GetComponent<Enemy>();
     }
     
     public override void takeDamage(int damage)
     {
         Debug.Log("Take Damage");
         base.takeDamage(damage);
-        enemyController.Ani.SetFloat("health", Health);
-        enemyController.Ani.SetTrigger("hit");
+        EnemyController.Ani.SetFloat("health", Health);
+        EnemyController.Ani.SetTrigger("hit");
     }
 
     public override void defeated()
     {
         base.defeated();
-        enemyController.defeatEnemy();
+        EnemyController.defeatEnemy();
         smokeParticle.Play();
 
         StartCoroutine(WaitAndDestroy());
