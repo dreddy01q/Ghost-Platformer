@@ -7,6 +7,8 @@ public class GhostNPC : MonoBehaviour
     private GameManage GameManager;
     private GhostManager GhostManager;
 
+    private SoundProximity SoundProximity;
+
     private bool found = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,6 +16,7 @@ public class GhostNPC : MonoBehaviour
         Animator = this.GetComponent<Animator>();
         GameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
         GhostManager = GameManager.GetComponent<GhostManager>();
+        SoundProximity = GetComponent<SoundProximity>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +25,7 @@ public class GhostNPC : MonoBehaviour
         {
             found = true;
             GameManager.GhostFound();
+            SoundProximity.StopSound();
             Animator.SetTrigger("freed");
         }
     }
