@@ -1,13 +1,19 @@
 using System;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
     [SerializeField] int healthMax = 3;
-    
-    private int health;
 
+    private int health;
     private UniversalSoundEffects soundEffects;
+
+    private enum SoundEvent
+    {
+        Hit,
+        Defeat
+    }
 
     private void Awake()
     {
@@ -23,15 +29,16 @@ public class HealthSystem : MonoBehaviour
 
     public virtual void takeDamage(int damage)
     {
-        Health-=damage;
+        Health -= damage;
+
         if (Health <= 0)
         {
             defeated();
-            PlaySound("defeat");
+            PlaySound(SoundEvent.Defeat);
         }
         else
         {
-            PlaySound("hit");
+            PlaySound(SoundEvent.Hit);
         }
     }
 
@@ -40,18 +47,21 @@ public class HealthSystem : MonoBehaviour
         
     }
 
-    private void PlaySound(string type)
+    private void PlaySound(SoundEvent type)
     {
-        if (soundEffects == null)
+        // if the component isnt there, just do nothing (no crashing)
+        if (soundEffects == null) return;
+
+        switch (type)
         {
-            if (type == "hit") 
-            {
+            case SoundEvent.Hit:
                 soundEffects.PlaySound(soundEffects.SoundType_Hit);
-            }
-            if (type == "defeat")
-            {
+                break;
+
+            case SoundEvent.Defeat:
                 soundEffects.PlaySound(soundEffects.SoundType_Defeat);
-            }
+                break;
         }
     }
 }
+//***the enum version is nicer  because it prevents "defeat" / "deafeat" type mistakes***
