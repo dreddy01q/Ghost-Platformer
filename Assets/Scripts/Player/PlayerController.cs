@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     #region Variables
 
@@ -78,6 +79,19 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    public override void OnNetworkSpawn()
+    {
+        ani = GetComponent<Animator>();
+        mainCam = Camera.main.transform;
+
+        rb = GetComponent<Rigidbody>();
+        soundEffects = GetComponent<PlayerSoundEffects>();
+
+        rb.freezeRotation = true;
+
+        GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
+    }
+
     private void Awake()
     {
         ani = GetComponent<Animator>();
@@ -91,6 +105,8 @@ public class PlayerController : MonoBehaviour
         GameManage=GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
         
     }
+
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -132,6 +148,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         getPlyJump();
         getPlyCrouch();
         getPlyMovement();
@@ -143,6 +164,10 @@ public class PlayerController : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
         performMovement();
         performJump();
     }
