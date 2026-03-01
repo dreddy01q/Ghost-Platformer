@@ -19,8 +19,10 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject scareOrigin;
     public GameObject plyAppereance;
+
+    public GameObject MainCamera;
     
-    Transform mainCam;
+    public Transform mainCam;
     
     public GroundChecker groundChecker;
     
@@ -82,7 +84,13 @@ public class PlayerController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         ani = GetComponent<Animator>();
-        mainCam = Camera.main.transform;
+
+        //DisableCameras();
+
+        if (IsOwner)
+        {
+            MainCamera.SetActive(true);
+        }
 
         rb = GetComponent<Rigidbody>();
         soundEffects = GetComponent<PlayerSoundEffects>();
@@ -92,10 +100,21 @@ public class PlayerController : NetworkBehaviour
         GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
 
+    private void DisableCameras()
+    {
+        foreach (Camera cam in Camera.allCameras)
+        {
+            if (!IsOwner)
+            {
+                cam.gameObject.SetActive(false);
+            }
+        }
+    }
+
     private void Awake()
     {
         ani = GetComponent<Animator>();
-        mainCam = Camera.main.transform;
+       // mainCam = Camera.main.transform;
         
         rb = GetComponent<Rigidbody>();
         soundEffects = GetComponent<PlayerSoundEffects>();
