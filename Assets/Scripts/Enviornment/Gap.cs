@@ -10,13 +10,19 @@ public class Gap : MonoBehaviour
         gameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        gameManage.endGame(false);
-    }
-
     private void OnCollisionEnter(Collision other)
     {
-        gameManage.endGame(false);
+        PlayerDeath(other);
+    }
+
+    private void PlayerDeath(Collision other)
+    {
+        try
+        {
+            other.gameObject.GetComponent<PlayerHealth>().Defeated();
+        }
+        catch{
+
+        }
     }
 }

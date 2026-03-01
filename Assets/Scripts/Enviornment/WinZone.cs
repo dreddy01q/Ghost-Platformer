@@ -14,7 +14,7 @@ public class WinZone : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GameManage.endGame(true);
+            GameManage.EndGame(true);
         }
     }
 }

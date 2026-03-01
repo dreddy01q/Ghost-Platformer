@@ -19,7 +19,7 @@ public class AttackCollider : MonoBehaviour
         if (opponentHealth != null) 
         {
             Debug.Log("Attacking " + other.gameObject.name);
-            opponentHealth.takeDamage(AttackController.AttackDamage);
+            opponentHealth.TakeDamage(AttackController.AttackDamage);
         }
         else
         {

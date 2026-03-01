@@ -10,6 +10,8 @@ public class PlayerController : NetworkBehaviour
 {
     #region Variables
 
+    private int playerID;
+
     public PlayerInput playerInput;
     private Rigidbody rb;
     private Animator ani;
@@ -78,6 +80,7 @@ public class PlayerController : NetworkBehaviour
         get => isInvisible;
         set => isInvisible = value;
     }
+    public int PlayerID { get => playerID; set => playerID = value; }
 
     #endregion
 
@@ -493,7 +496,7 @@ public class PlayerController : NetworkBehaviour
             Debug.Log("Object hit");
             if (hit.collider.tag == "Enemy")
             {
-                hit.collider.gameObject.GetComponent<HealthSystem>().takeDamage(attackDamage);
+                hit.collider.gameObject.GetComponent<HealthSystem>().TakeDamage(attackDamage);
             }
         }
         

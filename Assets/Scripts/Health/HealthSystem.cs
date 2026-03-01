@@ -21,12 +21,12 @@ public class HealthSystem : MonoBehaviour
         set => health = value;
     }
 
-    public virtual void takeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         Health-=damage;
         if (Health <= 0)
         {
-            defeated();
+            Defeated();
             PlaySound("defeat");
         }
         else
@@ -35,7 +35,7 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public virtual void defeated()
+    public virtual void Defeated()
     {
         
     }

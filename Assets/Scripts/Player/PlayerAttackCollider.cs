@@ -24,14 +24,14 @@ public class PlayerAttackCollider : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             
-            other.gameObject.GetComponent<EnemyHealth>().takeDamage(playerController.attackDamage);
+            other.gameObject.GetComponent<EnemyHealth>().TakeDamage(playerController.attackDamage);
             return;
             
             
             
             try
             {
-                other.gameObject.GetComponent<EnemyHealth>().takeDamage(playerController.attackDamage);
+                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(playerController.attackDamage);
             }
             catch (Exception e)
             {

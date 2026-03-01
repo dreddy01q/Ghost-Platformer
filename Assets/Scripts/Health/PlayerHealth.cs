@@ -11,16 +11,20 @@ public class PlayerHealth : HealthSystem
         playerController = GetComponent<PlayerController>();
     }
     
-    public override void takeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
-        base.takeDamage(damage);
+        base.TakeDamage(damage);
     }
 
-    public override void defeated()
+
+
+    public override void Defeated()
     {
-        base.defeated();
+        base.Defeated();
         playerController.enabled = false;
         smokeParticle.Play();
-        playerController.GameManage.endGame(false);
+
+
+        playerController.GameManage.PlayerDeath(playerController.PlayerID);
     }
 }
