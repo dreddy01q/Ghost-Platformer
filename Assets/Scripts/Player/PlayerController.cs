@@ -21,10 +21,6 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject scareOrigin;
     public GameObject plyAppereance;
-
-    public GameObject MainCamera;
-    
-    public Transform mainCam;
     
     public GroundChecker groundChecker;
     
@@ -84,6 +80,11 @@ public class PlayerController : NetworkBehaviour
 
     #endregion
 
+
+    public GameObject MainCameraObject;
+    public Transform MainCam;
+    public GameObject PlayerUI;
+
     public override void OnNetworkSpawn()
     {
         ani = GetComponent<Animator>();
@@ -92,7 +93,8 @@ public class PlayerController : NetworkBehaviour
 
         if (IsOwner)
         {
-            MainCamera.SetActive(true);
+            MainCameraObject.SetActive(true);
+            PlayerUI.SetActive(true);
         }
 
         rb = GetComponent<Rigidbody>();
@@ -269,8 +271,8 @@ public class PlayerController : NetworkBehaviour
 
     void performMovement()
     {
-        var adjustedDirection = Quaternion.AngleAxis(mainCam.eulerAngles.y, Vector3.up) * playerMovement;
-        plyDirection = Quaternion.AngleAxis(mainCam.eulerAngles.y, Vector3.up) * Vector3.forward;
+        var adjustedDirection = Quaternion.AngleAxis(MainCam.eulerAngles.y, Vector3.up) * playerMovement;
+        plyDirection = Quaternion.AngleAxis(MainCam.eulerAngles.y, Vector3.up) * Vector3.forward;
 
         if (adjustedDirection.magnitude > ZeroF)
         {

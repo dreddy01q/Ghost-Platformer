@@ -24,6 +24,7 @@ public class PlayerHealth : HealthSystem
         playerController.enabled = false;
         smokeParticle.Play();
 
+        Destroy(gameObject);
 
         playerController.GameManage.PlayerDeath(playerController.PlayerID);
     }

@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 public class GameManage : MonoBehaviour
@@ -31,17 +32,25 @@ public class GameManage : MonoBehaviour
         CanvasManager = Canvas.GetComponent<CanvasManager>();
         GameSoundEffects = GetComponent<GameSoundEffects>();
 
-        SetPlayers(playerCount);
+        
+    }
+
+    private void Start()
+    {
+       // SetPlayers(playerCount);
     }
 
     private void SetPlayers(int playerCount)
     {
-        HostClientManage hostClientManage = new HostClientManage();
+        //HostClientManage hostClientManage = new HostClientManage();
 
-        hostClientManage.StartHost();
-        hostClientManage.StartClient();
+        //hostClientManage.StartHost();
+        //hostClientManage.StartClient();
 
-        PlayersActive= new bool[playerCount];
+        NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.StartClient();
+
+        PlayersActive = new bool[playerCount];
 
         players = GameObject.FindGameObjectsWithTag("Player");
 
