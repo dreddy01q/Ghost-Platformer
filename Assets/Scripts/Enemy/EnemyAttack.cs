@@ -1,7 +1,8 @@
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttack : NetworkBehaviour
 {
     [Header("Attack Settings")]
     [SerializeField] int attackDamage = 1;
