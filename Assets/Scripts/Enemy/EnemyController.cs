@@ -21,8 +21,6 @@ public class EnemyController : NetworkBehaviour
 
     void Start()
     {
-        //player = GameObject.FindGameObjectWithTag("Player");
-        //playerControler = player.GetComponent<PlayerController>();
         Ani = GetComponent<Animator>();
 
         enemyAttack = GetComponent<EnemyAttack>();
@@ -32,10 +30,9 @@ public class EnemyController : NetworkBehaviour
     public void ManualUpdate()
     {
         //if (!defeated && !playerControler.IsInvisible)
-        if (player!=null)
+        if (player != null && !defeated) 
         {
-            //agent.enabled = true;
-            enemyMovement.MovementUpdate(player, playerControler.IsInvisible);
+            enemyMovement.MovementUpdate();
             enemyAttack.updateAttack(player);
         }
     }
@@ -50,6 +47,5 @@ public class EnemyController : NetworkBehaviour
     {
         this.player = player;
         playerControler=player.GetComponent<PlayerController>();
-        Debug.Log("Identified player!");
     }
 }

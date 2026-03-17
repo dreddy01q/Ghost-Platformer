@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyMovement : NetworkBehaviour
 {
-    public float MovementRange = 10;
+    private EnemyDetection enemyDetection;
+    private GameObject currentTargetPlayer;
 
     private NavMeshAgent agent;
     private Animator ani;
@@ -32,19 +33,45 @@ public class EnemyMovement : NetworkBehaviour
         Agent = GetComponent<NavMeshAgent>();
         Ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+
+        enemyDetection = GetComponent<EnemyDetection>();
     }
 
-    // Implement Detect range
-
-
-    public void MovementUpdate(GameObject playerTarget, bool playerInvisible)
+    public void MovementUpdate()
     {
-        if (Vector3.Distance(this.transform.position, playerTarget.transform.position) <= MovementRange && !playerInvisible) 
+        // Has found a player in range of detection
+        GameObject targetPlayer = enemyDetection.GetClosestPlayer();
+        if (targetPlayer != null) 
         {
-            moveTowardsPlayer(playerTarget);
+            // New Target Player
+            if (currentTargetPlayer == null)
+            {
+                currentTargetPlayer = targetPlayer;
+            }
+
+            // Found a closer player
+            if (currentTargetPlayer == targetPlayer) 
+            {
+                float distance=Vector3.Distance(this.transform.position, targetPlayer.transform.position);
+                if (enemyDetection.SwitchTargetCheck(distance))
+                {
+                    currentTargetPlayer = targetPlayer;
+                }
+            }
+
+            moveTowardsPlayer(currentTargetPlayer);
         }
         else
         {
+            // Still chasing a player
+            if (currentTargetPlayer != null) {
+                if (!enemyDetection.ForgetTargetCheck(agent.remainingDistance))
+                {
+                    moveTowardsPlayer(currentTargetPlayer);
+                    return;
+                }
+            }
+
             stopEnemyMovement();
         }
     }

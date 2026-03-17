@@ -62,25 +62,5 @@ public class EnemyAttack : NetworkBehaviour
         attackCooldownCount = attackCooldown;
 
         Ani.SetTrigger("attack");
-
-
-        // DEAD CODE?
-        RaycastHit hit;
-
-        Ray downRay = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange)
-        {
-            if (hit.collider.tag == "Player")
-            {
-                //hit.collider.GetComponent<HealthSystem>().takeDamage(attackDamage);
-            }
-            else
-            {
-                Debug.Log(hit.collider.tag);
-            }
-
-        }
-
-        Debug.DrawRay(transform.position, transform.forward, Color.red, 20);
     }
 }

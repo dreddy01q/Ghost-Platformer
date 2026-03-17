@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class EnemyHealth : HealthSystem
 {
-    private Enemy enemyController;
+    private EnemyController enemyController;
     
     public ParticleSystem smokeParticle;
 
-    public Enemy EnemyController { get => enemyController; set => enemyController = value; }
+    public EnemyController EnemyController { get => enemyController; set => enemyController = value; }
 
     void Start()
     {
-        EnemyController = GetComponent<Enemy>();
+        EnemyController = GetComponent<EnemyController>();
     }
     
     public override void TakeDamage(int damage)

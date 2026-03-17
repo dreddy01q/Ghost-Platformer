@@ -2333,8 +2333,9 @@ GameObject:
   - component: {fileID: 564080897447722785}
   - component: {fileID: 3418693049890381848}
   - component: {fileID: 6070595560828916717}
-  - component: {fileID: 8178596010496337194}
   - component: {fileID: 8492756434187404922}
+  - component: {fileID: 8178596010496337194}
+  - component: {fileID: 2415495638856678031}
   - component: {fileID: 8898278488631666424}
   - component: {fileID: 4093019505029386029}
   - component: {fileID: 455304856157447356}
@@ -2470,7 +2471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3414766754
+  GlobalObjectIdHash: 1296387915
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2509,21 +2510,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  MovementRange: 10
---- !u!114 &8178596010496337194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5914181916518537736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f238e5ff4a784e44a301f1a22b3d03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  healthMax: 1
-  smokeParticle: {fileID: 8415236839485476090}
 --- !u!114 &8492756434187404922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2540,6 +2526,32 @@ MonoBehaviour:
   attackDamage: 1
   attackRange: 2
   attackCooldown: 3
+--- !u!114 &8178596010496337194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914181916518537736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f238e5ff4a784e44a301f1a22b3d03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  healthMax: 1
+  smokeParticle: {fileID: 8415236839485476090}
+--- !u!114 &2415495638856678031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914181916518537736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4553e6b42c468df49befd64ed4b7d195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDetection
 --- !u!114 &8898278488631666424
 MonoBehaviour:
   m_ObjectHideFlags: 0

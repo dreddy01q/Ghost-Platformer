@@ -3,16 +3,16 @@ using Unity.Netcode;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : NetworkBehaviour
 {
     private GameManage gameManage;
 
     [Header("Player Trackers")]
-    private int playerCount = 0;
+    private static int playerCount = 0;
     private GameObject[] players;
     private static bool[] playersActive;
 
-    public int PlayerCount { get => playerCount; set => playerCount = value; }
+    public static int PlayerCount { get => playerCount; set => playerCount = value; }
     public GameObject[] Players { get => players; set => players = value; }
     public static bool[] PlayersActive { get => playersActive; set => playersActive = value; }
 
@@ -59,6 +59,7 @@ public class PlayerManager : MonoBehaviour
     private void setPlayerValues()
     {
         Players = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log("There is " + Players.Length + " players");
         PlayerCount = Players.Length;
         PlayersActive= new bool[PlayerCount];
         for(int i = 0; i < PlayerCount; i++)

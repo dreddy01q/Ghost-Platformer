@@ -398,6 +398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerNetwork
   PlayerManager: {fileID: 1976413025}
   enemyManager: {fileID: 1898808431}
+  enemy: {fileID: 0}
 --- !u!1 &66361824
 GameObject:
   m_ObjectHideFlags: 0
@@ -7281,10 +7282,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1976413022}
   - component: {fileID: 1976413021}
+  - component: {fileID: 1976413026}
   - component: {fileID: 1976413025}
   - component: {fileID: 1976413023}
   - component: {fileID: 1976413024}
-  - component: {fileID: 1976413026}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -7365,6 +7366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c57f6c051132f45bb5dda24582ae19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &1976413026
 MonoBehaviour:
   m_ObjectHideFlags: 0

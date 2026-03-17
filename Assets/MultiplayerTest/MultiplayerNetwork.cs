@@ -5,6 +5,9 @@ public class MultiplayerNetwork : MonoBehaviour
 {
     public PlayerManager PlayerManager;
     public EnemyManager enemyManager;
+
+    public GameObject enemy;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +30,11 @@ public class MultiplayerNetwork : MonoBehaviour
     {
         PlayerManager.JoinPlayerClient();
         updatePlayerReference();
+    }
+
+    public void SpawnEnemy()
+    {
+        
     }
 
     private void updatePlayerReference()
