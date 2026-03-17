@@ -16,8 +16,6 @@ public class PlayerHealth : HealthSystem
         base.TakeDamage(damage);
     }
 
-
-
     public override void Defeated()
     {
         base.Defeated();
@@ -26,6 +24,6 @@ public class PlayerHealth : HealthSystem
 
         Destroy(gameObject);
 
-        playerController.GameManage.PlayerDeath(playerController.PlayerID);
+        playerController.GameManage.PlayerManager.PlayerDeath(playerController.PlayerID);
     }
 }
