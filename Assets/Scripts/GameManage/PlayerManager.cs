@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         gameManage = GetComponent<GameManage>();
-        SetPlayers(2);
+        //SetPlayers(2);
     }
 
     private void SetPlayers(int playerCount)
@@ -41,6 +41,29 @@ public class PlayerManager : MonoBehaviour
         {
             ply.GetComponent<PlayerController>().PlayerID = ID;
             ID++;
+        }
+    }
+
+    public void JoinPlayerHost()
+    {
+        NetworkManager.Singleton.StartHost();
+        setPlayerValues();
+    }
+
+    public void JoinPlayerClient()
+    {
+        NetworkManager.Singleton.StartClient();
+        setPlayerValues();
+    }
+
+    private void setPlayerValues()
+    {
+        Players = GameObject.FindGameObjectsWithTag("Player");
+        PlayerCount = Players.Length;
+        PlayersActive= new bool[PlayerCount];
+        for(int i = 0; i < PlayerCount; i++)
+        {
+            PlayersActive[i]= true;
         }
     }
 
