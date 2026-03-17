@@ -17,6 +17,16 @@ public class EnemyAttack : MonoBehaviour
         set => ani = value;
     }
 
+    private void Start()
+    {
+        ani = GetComponent<Animator>();
+    }
+
+    public void updateAttack(GameObject targetPlayer)
+    {
+        checkAttack(targetPlayer);
+    }
+
     private void checkAttack(GameObject targetPlayer)
     {
         if (checkAttackCooldown())

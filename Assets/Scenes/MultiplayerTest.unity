@@ -396,6 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddc82c2e5304554998d8fdd9b995230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerNetwork
+  enemyManager: {fileID: 1898808431}
 --- !u!1 &66361824
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,17 +539,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1855112745759044523, guid: 12274c6bc21c1394283ff382e2cc037b, type: 3}
   m_PrefabInstance: {fileID: 6117631017762845783}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &76980005 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 195239656673648025, guid: 12274c6bc21c1394283ff382e2cc037b, type: 3}
-  m_PrefabInstance: {fileID: 6117631017762845783}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1001 &97947993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -659,7 +649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -716,17 +706,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &97947997 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 97947993}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97947995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &102463360
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -1290,17 +1269,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &282001903 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 282001899}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282001901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &341259311
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,7 +2266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -2355,17 +2323,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &726572266 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 726572262}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 726572264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &728164144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2984,7 +2941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -3041,17 +2998,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &839386723 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 839386719}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839386721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1001 &839639041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3230,6 +3176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -3254,17 +3204,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 891278431}
   m_SourcePrefab: {fileID: 100100000, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
---- !u!114 &891278422 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 876368686}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383675789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!4 &891278426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2662137643658024995, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
@@ -3291,6 +3230,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
+--- !u!114 &891278432 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3418693049890381848, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
+  m_PrefabInstance: {fileID: 876368686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383675789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9258d6e4fa8fc1848a7706b999c4fb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
 --- !u!1001 &914323914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3679,7 +3629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -3736,17 +3686,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &960230964 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 960230960}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960230962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &977352133
 GameObject:
   m_ObjectHideFlags: 0
@@ -4357,7 +4296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -4414,17 +4353,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &1163081277 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 1163081273}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163081275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!4 &1202416451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2097038361104257555, guid: 6ed87f2b51121cb43915f95d2a898302, type: 3}
@@ -5444,7 +5372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -5501,17 +5429,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &1512080557 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 1512080553}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512080555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &1536423458
 GameObject:
   m_ObjectHideFlags: 0
@@ -5662,7 +5579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -5719,17 +5636,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &1539248617 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 1539248613}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1539248615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &1543650966
 GameObject:
   m_ObjectHideFlags: 0
@@ -5754,7 +5660,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1543650966}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
@@ -5940,7 +5846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -5997,17 +5903,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &1605145290 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 1605145286}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605145288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1001 &1611454718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6482,7 +6377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -6539,17 +6434,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &1792151446 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 1792151442}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792151444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &1827169041
 GameObject:
   m_ObjectHideFlags: 0
@@ -6918,20 +6802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   enemies:
-  - {fileID: 891278422}
-  - {fileID: 1792151446}
-  - {fileID: 1539248617}
-  - {fileID: 839386723}
-  - {fileID: 1512080557}
-  - {fileID: 97947997}
-  - {fileID: 1982066616}
-  - {fileID: 282001903}
-  - {fileID: 2003869395}
-  - {fileID: 960230964}
-  - {fileID: 726572266}
-  - {fileID: 1605145290}
-  - {fileID: 1163081277}
-  - {fileID: 76980005}
+  - {fileID: 891278432}
 --- !u!4 &1898808432
 Transform:
   m_ObjectHideFlags: 0
@@ -7516,7 +7387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -7573,17 +7444,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &1982066616 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 1982066612}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982066614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &1984447112
 GameObject:
   m_ObjectHideFlags: 0
@@ -7831,7 +7691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914181916518537736, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349007320883778964, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
       propertyPath: m_Controller
@@ -7888,17 +7748,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.9649153, z: 1}
   m_Center: {x: 0, y: 0.9860163, z: 0}
---- !u!114 &2003869395 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4610241592374130193, guid: 89d3981bd720b8b49bbb737b920aa34b, type: 3}
-  m_PrefabInstance: {fileID: 2003869391}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003869393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
 --- !u!1 &2018697871
 GameObject:
   m_ObjectHideFlags: 0
@@ -9233,6 +9082,10 @@ PrefabInstance:
     - target: {fileID: 8024317489574490496, guid: 12274c6bc21c1394283ff382e2cc037b, type: 3}
       propertyPath: m_Name
       value: Enemy Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8024317489574490496, guid: 12274c6bc21c1394283ff382e2cc037b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

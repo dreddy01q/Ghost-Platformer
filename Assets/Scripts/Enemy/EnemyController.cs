@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
         {
             //agent.enabled = true;
             enemyMovement.MovementUpdate(true, player);
+            enemyAttack.updateAttack(player);
         }
     }
 
