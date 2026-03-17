@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public float MovementRange = 10;
+
     private NavMeshAgent agent;
     private Animator ani;
     private Rigidbody rb;
@@ -34,29 +36,35 @@ public class EnemyMovement : MonoBehaviour
     // Implement Detect range
 
 
-    public void MovementUpdate(bool moveEnemy, GameObject playerTarget)
+    public void MovementUpdate(GameObject playerTarget, bool playerInvisible)
     {
-        Debug.Log("Move!");
-        if (moveEnemy)
+        if (Vector3.Distance(this.transform.position, playerTarget.transform.position) <= MovementRange && !playerInvisible) 
         {
             moveTowardsPlayer(playerTarget);
         }
         else
         {
-            // Stop Enemy
-            // Implement Enemy Patrol?
-            agent.isStopped = true;
+            stopEnemyMovement();
         }
     }
 
 
     private void moveTowardsPlayer(GameObject playerTarget)
     {
+        // Enable the navmesh agenet
+        agent.enabled = true;
+
         // Sets the enemy movement animation
         Ani.SetFloat("movement", rb.linearVelocity.magnitude);
 
         // Enemy will run towards the player and stop just in front of them
         Vector3 targetDirection = playerTarget.transform.position - transform.forward;
         agent.SetDestination(targetDirection);
+    }
+
+    private void stopEnemyMovement()
+    {
+        Ani.SetFloat("movement", 0);
+        agent.enabled = false;
     }
 }

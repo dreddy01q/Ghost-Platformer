@@ -37,7 +37,7 @@ public class GameManage : MonoBehaviour
 
     private void Start()
     {
-       // SetPlayers(playerCount);
+        SetPlayers(playerCount);
     }
 
     private void SetPlayers(int playerCount)

@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour
         if (player!=null)
         {
             //agent.enabled = true;
-            enemyMovement.MovementUpdate(true, player);
+            enemyMovement.MovementUpdate(player, playerControler.IsInvisible);
             enemyAttack.updateAttack(player);
         }
     }
@@ -48,6 +48,7 @@ public class EnemyController : MonoBehaviour
     public void UpdatePlayer(GameObject player)
     {
         this.player = player;
+        playerControler=player.GetComponent<PlayerController>();
         Debug.Log("Identified player!");
     }
 }
