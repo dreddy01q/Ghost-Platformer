@@ -40,6 +40,6 @@ public class MultiplayerNetwork : MonoBehaviour
     private void updatePlayerReference()
     {
         Debug.Log("Count: " + PlayerManager.PlayerCount);
-        enemyManager.UpdatePlayerRefrence(PlayerManager.Players[PlayerManager.PlayerCount - 1]);
+        //enemyManager.UpdatePlayerRefrence(PlayerManager.Players[PlayerManager.PlayerCount - 1]);
     }
 }

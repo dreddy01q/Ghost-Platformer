@@ -8,6 +8,11 @@ public class EnemyDetection : MonoBehaviour
     private float targetSwitchRange = 5f;
     private float targetForgetRange = 5f;
 
+    private void Start()
+    {
+        playerManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerManager>();
+    }
+
 
     // Will find the closest player in the detection range
     // This is used to intialy find a player, change player targets if another gets closer and 

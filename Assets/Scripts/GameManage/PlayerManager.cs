@@ -1,78 +1,55 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using NUnit.Framework;
 using Unity.Netcode;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using Debug = UnityEngine.Debug;
 
-public class PlayerManager : NetworkBehaviour
+public class PlayerManager : MonoBehaviour
 {
+    public GameObject PlayerPrefab;
+    public static PlayerManager OwnerPlayerManager;
+
     private GameManage gameManage;
 
     [Header("Player Trackers")]
     private static int playerCount = 0;
-    private GameObject[] players;
-    private static bool[] playersActive;
+    private List<GameObject> players;
+    private List<bool> playersActive;
 
     public static int PlayerCount { get => playerCount; set => playerCount = value; }
-    public GameObject[] Players { get => players; set => players = value; }
-    public static bool[] PlayersActive { get => playersActive; set => playersActive = value; }
+    public List<GameObject> Players { get => players; set => players = value; }
+    public List<bool> PlayersActive { get => playersActive; set => playersActive = value; }
 
     private void Start()
     {
         gameManage = GetComponent<GameManage>();
-        //SetPlayers(2);
-    }
-
-    private void SetPlayers(int playerCount)
-    {
-        //HostClientManage hostClientManage = new HostClientManage();
-
-        //hostClientManage.StartHost();
-        //hostClientManage.StartClient();
-
-        NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.StartClient();
-
-        PlayersActive = new bool[playerCount];
-
-        Players = GameObject.FindGameObjectsWithTag("Player");
-
-        int ID = 0;
-        foreach (GameObject ply in Players)
-        {
-            ply.GetComponent<PlayerController>().PlayerID = ID;
-            ID++;
-        }
     }
 
     public void JoinPlayerHost()
     {
         NetworkManager.Singleton.StartHost();
-        setPlayerValues();
     }
 
     public void JoinPlayerClient()
     {
         NetworkManager.Singleton.StartClient();
-        setPlayerValues();
+        
     }
 
-    private void setPlayerValues()
+    private void OnEnable()
     {
-        Players = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log("There is " + Players.Length + " players");
-        PlayerCount = Players.Length;
-        PlayersActive= new bool[PlayerCount];
-        for(int i = 0; i < PlayerCount; i++)
-        {
-            PlayersActive[i]= true;
-        }
+        NetworkManager.Singleton.OnClientConnectedCallback += ClientConnection;
     }
 
-    private void setPlayer()
+    private void ClientConnection(ulong clientID)
     {
-
+        PlayerCount++;
+        playersActive.Add(true);
     }
-
 
     // Sets a player death
     public void PlayerDeath(int playerID)

@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 public class EnemyController : NetworkBehaviour
 {
+
     private GameObject player;
-    private PlayerController playerControler;
 
     private Animator ani;
     private bool defeated = false;
@@ -46,6 +46,6 @@ public class EnemyController : NetworkBehaviour
     public void UpdatePlayer(GameObject player)
     {
         this.player = player;
-        playerControler=player.GetComponent<PlayerController>();
+       // playerControler=player.GetComponent<PlayerController>();
     }
 }
