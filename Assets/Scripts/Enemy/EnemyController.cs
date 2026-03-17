@@ -21,13 +21,17 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         //player = GameObject.FindGameObjectWithTag("Player");
-        playerControler = player.GetComponent<PlayerController>();
+        //playerControler = player.GetComponent<PlayerController>();
         Ani = GetComponent<Animator>();
+
+        enemyAttack = GetComponent<EnemyAttack>();
+        enemyMovement = GetComponent<EnemyMovement>();
     }
 
     public void ManualUpdate()
     {
-        if (!defeated && !playerControler.IsInvisible)
+        //if (!defeated && !playerControler.IsInvisible)
+        if (player!=null)
         {
             //agent.enabled = true;
             enemyMovement.MovementUpdate(true, player);
@@ -38,5 +42,11 @@ public class EnemyController : MonoBehaviour
     {
         defeated = true;
         Ani.SetFloat("movement", 0);
+    }
+
+    public void UpdatePlayer(GameObject player)
+    {
+        this.player = player;
+        Debug.Log("Identified player!");
     }
 }

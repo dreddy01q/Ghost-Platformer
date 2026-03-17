@@ -709,7 +709,6 @@ Transform:
   - {fileID: 6453211247957169840}
   - {fileID: 4300293788440025406}
   - {fileID: 3056773482100033104}
-  - {fileID: 3646216352879727258}
   m_Father: {fileID: 2662137643658024995}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2160139328763839935
@@ -2327,12 +2326,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2662137643658024995}
   - component: {fileID: 6349007320883778964}
-  - component: {fileID: 4610241592374130193}
   - component: {fileID: 7147592829075144009}
   - component: {fileID: 1280883452964200673}
   - component: {fileID: 8178596010496337194}
   - component: {fileID: 8898278488631666424}
   - component: {fileID: 4093019505029386029}
+  - component: {fileID: 3418693049890381848}
+  - component: {fileID: 6070595560828916717}
+  - component: {fileID: 8492756434187404922}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2356,6 +2357,7 @@ Transform:
   - {fileID: 2945711475371307829}
   - {fileID: 7270846697785667468}
   - {fileID: 3027913747954077304}
+  - {fileID: 3646216352879727258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6349007320883778964
@@ -2380,23 +2382,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4610241592374130193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5914181916518537736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068df31a377605246a5e4cc88156f817, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  detectRange: 10
-  moveSpeed: 3
-  attackDamage: 1
-  attackRange: 2
-  attackCooldown: 3
 --- !u!195 &7147592829075144009
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2488,6 +2473,45 @@ MonoBehaviour:
   Sound_Hit: {fileID: 6302283872900416170}
   Sound_Attack: {fileID: 8662846418916208228}
   Sound_Defeat: {fileID: 8781648861394426780}
+--- !u!114 &3418693049890381848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914181916518537736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9258d6e4fa8fc1848a7706b999c4fb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+--- !u!114 &6070595560828916717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914181916518537736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a40ad9ed5ddb341b7367aeca339ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+--- !u!114 &8492756434187404922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914181916518537736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49fc636abc019242855b28f15eb8193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  attackDamage: 1
+  attackRange: 0.5
+  attackCooldown: 3
 --- !u!1 &6276976461418965569
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,6 +36,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void MovementUpdate(bool moveEnemy, GameObject playerTarget)
     {
+        Debug.Log("Move!");
         if (moveEnemy)
         {
             moveTowardsPlayer(playerTarget);

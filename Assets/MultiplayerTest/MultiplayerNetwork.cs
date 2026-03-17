@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MultiplayerNetwork : MonoBehaviour
 {
+    public EnemyManager enemyManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,10 +19,16 @@ public class MultiplayerNetwork : MonoBehaviour
     public void StartHost()
     {
         NetworkManager.Singleton.StartHost();
+        updatePlayerReference();
     }
 
     public void StartClient()
     {
         NetworkManager.Singleton.StartClient();
+    }
+
+    private void updatePlayerReference()
+    {
+        enemyManager.UpdatePlayerRefrence(GameObject.FindGameObjectWithTag("Player"));
     }
 }
