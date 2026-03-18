@@ -32,6 +32,8 @@ public class EnemyDetection : MonoBehaviour
             }
         }
 
+        Debug.Log("Cloest Player is " + closestPly.name);
+
         return closestPly;
     }
 

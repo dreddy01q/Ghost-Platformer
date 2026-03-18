@@ -39,8 +39,10 @@ public class EnemyMovement : NetworkBehaviour
 
     public void MovementUpdate()
     {
-        // Has found a player in range of detection
+        // Tries to get a player that is in range
         GameObject targetPlayer = enemyDetection.GetClosestPlayer();
+
+        // If there is a player in range
         if (targetPlayer != null) 
         {
             // New Target Player
@@ -49,9 +51,10 @@ public class EnemyMovement : NetworkBehaviour
                 currentTargetPlayer = targetPlayer;
             }
 
-            // Found a closer player
-            if (currentTargetPlayer == targetPlayer) 
+            // The current target is not the cloests
+            if (currentTargetPlayer != targetPlayer) 
             {
+                // Checks if the new target is close enough to switch to
                 float distance=Vector3.Distance(this.transform.position, targetPlayer.transform.position);
                 if (enemyDetection.SwitchTargetCheck(distance))
                 {

@@ -27,6 +27,9 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         gameManage = GetComponent<GameManage>();
+
+        Players = new List<GameObject>();
+        PlayersActive = new List<bool>();   
     }
 
     public void JoinPlayerHost()
@@ -48,7 +51,12 @@ public class PlayerManager : MonoBehaviour
     private void ClientConnection(ulong clientID)
     {
         PlayerCount++;
-        playersActive.Add(true);
+        NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject;
+
+        playerNetworkObject.gameObject.name += PlayerCount;
+
+        Players.Add(playerNetworkObject.gameObject);
+        PlayersActive.Add(true);
     }
 
     // Sets a player death

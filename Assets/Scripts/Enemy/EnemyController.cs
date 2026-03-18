@@ -29,6 +29,8 @@ public class EnemyController : NetworkBehaviour
 
     public void ManualUpdate()
     {
+        enemyMovement.MovementUpdate();
+
         //if (!defeated && !playerControler.IsInvisible)
         if (player != null && !defeated) 
         {
