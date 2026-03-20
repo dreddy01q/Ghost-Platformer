@@ -26,24 +26,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Scare()
     {
-        // Am I using this anymore?
-
-
-        RaycastHit hit;
-        Ray downRay = new Ray(scareOrigin.transform.position, Vector3.forward);
-
         ani.SetTrigger("scare");
         soundEffects.PlaySound(soundEffects.SoundType_Attack);
-
-        if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange)
-        //if (Physics.SphereCast(transform.position, 5, plyDirection, out hit, attackRange))
-        {
-            if (hit.collider.tag == "Enemy")
-            {
-                hit.collider.gameObject.GetComponent<HealthSystem>().TakeDamage(attackDamage);
-            }
-        }
-
-        Debug.DrawRay(scareOrigin.transform.position, playerController.PlyDirection, Color.red, 5);
     }
 }

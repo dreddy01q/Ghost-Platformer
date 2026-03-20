@@ -900,7 +900,7 @@ GameObject:
   - component: {fileID: 5600310408016920995}
   - component: {fileID: 1286375278310765456}
   m_Layer: 0
-  m_Name: Ground
+  m_Name: GroundChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1702,6 +1702,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
       insertIndex: -1
       addedObject: {fileID: 548407259561202362}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8096621956613520502}
   m_SourcePrefab: {fileID: 100100000, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
 --- !u!1 &113816195454673271 stripped
 GameObject:
@@ -1769,11 +1772,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   ShowTopMostFoldoutHeaderGroup: 1
   plyAppereance: {fileID: 1987373083892960939}
-  groundChecker: {fileID: 1286375278310765456}
   moveSpeed: 500
   rotationSpeed: 200
   smoothTime: 0.2
-  jumpForce: 10
   MainCameraObject: {fileID: 5274697766602855799}
   MainCam: {fileID: 4767944616943015844}
   PlayerUI: {fileID: 8639371822032881495}
@@ -1964,6 +1965,20 @@ MonoBehaviour:
   scareOrigin: {fileID: 8046447039624650504}
   attackDamage: 5
   attackRange: 5
+--- !u!114 &8096621956613520502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113816195454673271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89810f240ba39949979814ca566c924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
+  groundChecker: {fileID: 1286375278310765456}
+  jumpForce: 10
 --- !u!4 &783498338987375565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}

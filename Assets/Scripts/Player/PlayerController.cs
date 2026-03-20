@@ -20,8 +20,7 @@ public class PlayerController : NetworkBehaviour
     private PlayerSoundEffects soundEffects;
 
     public GameObject plyAppereance;
-    
-    public GroundChecker groundChecker;
+   
     
 
     [Header("Movement Settings")]
@@ -32,22 +31,10 @@ public class PlayerController : NetworkBehaviour
     private float slideMoveSpeed = 5;
     [SerializeField] float smoothTime = 0.2f;
     Vector3 playerMovement;
-    
-    // Jumping
-    [SerializeField] float jumpForce = 10;
-    private float standardJumpForce = 10;
-    private float highJumpForce = 10;
-    private float longJumpForce = 10;
-    private float jumpVelocity = 10f;
-
-    private float longJumpVelocity = 10f;
-    private int jumpState = 0;      // 0=No Jump, 1=Jumping Up, 2=Coming Down, 3=Landed
-
-    private bool startJump = false;
+   
     
     float currentSpeed;
     float velocity;
-    float ZeroF = 0f;
     
     
     private GameManage gameManage;
@@ -59,7 +46,6 @@ public class PlayerController : NetworkBehaviour
     
     private static readonly int IdleState = Animator.StringToHash("Base Layer.idle");
     private static readonly int MoveState = Animator.StringToHash("Base Layer.move");
-    private static readonly int SurprisedState = Animator.StringToHash("Base Layer.surprised");
     private static readonly int AttackState = Animator.StringToHash("Base Layer.attack_shift");
     private static readonly int DissolveState = Animator.StringToHash("Base Layer.dissolve");
     private static readonly int AttackTag = Animator.StringToHash("Attack");
@@ -77,6 +63,9 @@ public class PlayerController : NetworkBehaviour
     }
     public int PlayerID { get => playerID; set => playerID = value; }
     public Vector3 PlyDirection { get => plyDirection; set => plyDirection = value; }
+    public bool Crouching { get => crouching; set => crouching = value; }
+    public bool Sliding { get => sliding; set => sliding = value; }
+    public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
 
     #endregion
 
@@ -90,6 +79,10 @@ public class PlayerController : NetworkBehaviour
 
     public delegate void ScareAction();
     public static event ScareAction OnScare;
+
+
+    private PlayerJump playerJump;
+    private PlayerAttack playerAttack;
 
 
     public override void OnNetworkSpawn()
@@ -109,7 +102,8 @@ public class PlayerController : NetworkBehaviour
 
         rb.freezeRotation = true;
 
-        playerAttack=GetComponent<PlayerAttack>();
+        playerJump = GetComponent<PlayerJump>();
+        playerAttack =GetComponent<PlayerAttack>();
 
         GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
@@ -144,35 +138,17 @@ public class PlayerController : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SetTimer();
-
         SetSpeeds();
-        SetJumps();;
     }
     
     
     #region Start Set Values
-    
-    void SetTimer()
-    {
-        jumpTimer = new TimerCountdown(jumpDuration);
-        jumpTimer.OnTimerStart += () => jumpVelocity = jumpForce;
-        jumpTimer.OnTimerStop += () => jumpState = 2;
-    }
-
     private void SetSpeeds()
     {
         standMoveSpeed = moveSpeed;
         crouchMoveSpeed = standMoveSpeed / 2;
         slideMoveSpeed = standMoveSpeed * 1.5f;
-        longJumpVelocity = moveSpeed * 2f;
-    }
-
-    private void SetJumps()
-    {
-        standardJumpForce = jumpForce;
-        highJumpForce = jumpForce * 1.5f;
-        longJumpForce = jumpForce * 0.75f;
+        //longJumpVelocity = moveSpeed * 2f;
     }
 
     #endregion
@@ -191,8 +167,7 @@ public class PlayerController : NetworkBehaviour
         getPlyMovement();
         getPlyInvisible();
         getPlyScare();
-        
-        countdownTimer();
+       
     }
     
     private void FixedUpdate()
@@ -202,7 +177,6 @@ public class PlayerController : NetworkBehaviour
             return;
         }
         performMovement();
-        performJump();
     }
 
 
@@ -220,12 +194,12 @@ public class PlayerController : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            OnJump(true);
+            playerJump.OnJump(true);
         }
         
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            OnJump(false);
+            playerJump.OnJump(false);
         }
     }
 
@@ -281,7 +255,7 @@ public class PlayerController : NetworkBehaviour
         var adjustedDirection = Quaternion.AngleAxis(MainCam.eulerAngles.y, Vector3.up) * playerMovement;
         plyDirection = Quaternion.AngleAxis(MainCam.eulerAngles.y, Vector3.up) * Vector3.forward;
 
-        if (adjustedDirection.magnitude > ZeroF)
+        if (adjustedDirection.magnitude > 0f)
         {
             handleRotation(adjustedDirection);
             performHorizontalMovement(adjustedDirection);
@@ -290,7 +264,7 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
-            rb.linearVelocity = new Vector3(ZeroF, rb.linearVelocity.y, ZeroF);
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
         }
         
         ani.SetFloat("move", adjustedDirection.magnitude);
@@ -327,99 +301,18 @@ public class PlayerController : NetworkBehaviour
 
     #endregion
     
-    #region Jump
-    
-    void OnJump(bool jump)
-    {
-        // Player is starting to jump and is on the ground and not already jumping
-        if (jump && !jumpTimer.IsRunning && groundChecker.IsGrounded)
-        {
-            // Sets jump values based on player status
-            setJumpValues();
-            
-            // Starts the jump
-            startJumpSequence();
-        }
-        else if (!jump && jumpTimer.IsRunning)
-        {
-            jumpTimer.Stop();
-
-            jumpState = 2;
-        }
-    }
-
-    private void startJumpSequence()
-    {
-        startJump = true;
-        jumpState = 1;
-        jumpTimer.Start();
-        
-        ani.CrossFade(SurprisedState, 0.1f, 0, 0);
-
-        soundEffects.PlaySound(soundEffects.SoundType_Jump);
-    }
-
-    private void setJumpValues()
-    {
-        if (crouching)
-        {
-
-            // Long Jump from sliding
-            if (sliding)
-            {
-                moveSpeed = longJumpVelocity;
-                jumpForce = longJumpForce;
-            }
-            else
-            {
-                jumpForce = highJumpForce;
-            }
-        }
-        else
-        {
-            jumpForce = standardJumpForce;
-        }
-    }
-    
-
-    public void performJump()
-    {
-        // If not jumping and grounded, keep jump velocity at 0
-
-
-        // Grounded and not jumping, velocity is 0
-        if (!jumpTimer.IsRunning && groundChecker.IsGrounded)
-        {
-            jumpVelocity = ZeroF;
-
-            if (jumpState == 2) 
-            {
-                jumpState = 3;
-            }
-
-            return;
-        }
-
-        // Jump Timer has ran out
-        if (!jumpTimer.IsRunning)
-        {
-            Debug.Log("Jump");
-            // Gravity takes over
-            jumpVelocity += Physics.gravity.y * 2f * Time.fixedDeltaTime;
-        }
-        
-        
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpVelocity, rb.linearVelocity.z);
-    }
-
-    #endregion
     
     #region Crouch and Slide
     
     // Crouch and slide variables
+
+
     bool crouching = false;
-    float slowSpeed = 150;
     bool sliding = false;
+
+
+    float slowSpeed = 150;
+
     void OnCrouch(bool crouch)
     {
         crouching = crouch;
@@ -487,17 +380,5 @@ public class PlayerController : NetworkBehaviour
     #endregion
 
 
-    #region Timer
     
-    private TimerCountdown jumpTimer;
-    private float jumpDuration = 0.1f;
-    
-    void countdownTimer()
-    {
-        jumpTimer.countdown(Time.deltaTime);
-    }
-
-    #endregion
-
-    private PlayerAttack playerAttack;
 }
