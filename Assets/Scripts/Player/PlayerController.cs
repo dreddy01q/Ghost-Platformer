@@ -30,11 +30,7 @@ public class PlayerController : NetworkBehaviour
     private float crouchMoveSpeed = 5;
     private float slideMoveSpeed = 5;
     [SerializeField] float smoothTime = 0.2f;
-    Vector3 playerMovement;
    
-    
-    float currentSpeed;
-    float velocity;
     
     
     private GameManage gameManage;
@@ -62,7 +58,6 @@ public class PlayerController : NetworkBehaviour
         set => isInvisible = value;
     }
     public int PlayerID { get => playerID; set => playerID = value; }
-    public Vector3 PlyDirection { get => plyDirection; set => plyDirection = value; }
     public bool Crouching { get => crouching; set => crouching = value; }
     public bool Sliding { get => sliding; set => sliding = value; }
     public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
@@ -81,6 +76,7 @@ public class PlayerController : NetworkBehaviour
     public static event ScareAction OnScare;
 
 
+    private PlayerMovement playerMovement;
     private PlayerJump playerJump;
     private PlayerAttack playerAttack;
 
@@ -102,6 +98,7 @@ public class PlayerController : NetworkBehaviour
 
         rb.freezeRotation = true;
 
+        playerMovement= GetComponent<PlayerMovement>();
         playerJump = GetComponent<PlayerJump>();
         playerAttack =GetComponent<PlayerAttack>();
 
@@ -132,26 +129,6 @@ public class PlayerController : NetworkBehaviour
         GameManage=GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
         
     }
-
-    
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        SetSpeeds();
-    }
-    
-    
-    #region Start Set Values
-    private void SetSpeeds()
-    {
-        standMoveSpeed = moveSpeed;
-        crouchMoveSpeed = standMoveSpeed / 2;
-        slideMoveSpeed = standMoveSpeed * 1.5f;
-        //longJumpVelocity = moveSpeed * 2f;
-    }
-
-    #endregion
     
 
     // Update is called once per frame
@@ -176,7 +153,7 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
-        performMovement();
+       
     }
 
 
@@ -187,7 +164,7 @@ public class PlayerController : NetworkBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         
-        playerMovement = new Vector3(horizontal, 0f, vertical);
+        playerMovement.Movement = new Vector3(horizontal, 0f, vertical);
     }
     
     private void getPlyJump()
@@ -243,61 +220,6 @@ public class PlayerController : NetworkBehaviour
     }
 
     
-
-    #endregion
-
-    #region Movement
-
-    private Vector3 plyDirection;
-
-    void performMovement()
-    {
-        var adjustedDirection = Quaternion.AngleAxis(MainCam.eulerAngles.y, Vector3.up) * playerMovement;
-        plyDirection = Quaternion.AngleAxis(MainCam.eulerAngles.y, Vector3.up) * Vector3.forward;
-
-        if (adjustedDirection.magnitude > 0f)
-        {
-            handleRotation(adjustedDirection);
-            performHorizontalMovement(adjustedDirection);
-            
-            SmoothSpeed(adjustedDirection.magnitude);
-        }
-        else
-        {
-            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-        }
-        
-        ani.SetFloat("move", adjustedDirection.magnitude);
-    }
-
-    void handleRotation(Vector3 adjustedDirection)
-    {
-        // Adjust rotation of player
-        var targetRotation = Quaternion.LookRotation(adjustedDirection);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-    }
-    
-
-    /*
-     * Performs the players movement in direction
-     */
-    void performHorizontalMovement(Vector3 adjustedDirection)
-    {
-        if (playerMovement.z != 0)
-        {
-            Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
-        
-            //Vector3 velocity = playerMovement * (moveSpeed * Time.deltaTime);
-
-            rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
-        }
-    }
-    
-    void SmoothSpeed(float value)
-    {
-        currentSpeed = Mathf.SmoothDamp(currentSpeed, value, ref velocity, smoothTime);
-    }
-
 
     #endregion
     
