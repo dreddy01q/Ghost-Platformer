@@ -1003,7 +1003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71268b80bf1b77c46a1c1f5a9a8d88a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackCollider
-  playerController: {fileID: 0}
+  playerAttack: {fileID: 0}
 --- !u!1 &7952494006227013850
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,6 +1699,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3198378043805735961}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 548407259561202362}
   m_SourcePrefab: {fileID: 100100000, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}
 --- !u!1 &113816195454673271 stripped
 GameObject:
@@ -1739,7 +1742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1477267358
+  GlobalObjectIdHash: 2522472191
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1765,7 +1768,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   ShowTopMostFoldoutHeaderGroup: 1
-  scareOrigin: {fileID: 8046447039624650504}
   plyAppereance: {fileID: 1987373083892960939}
   groundChecker: {fileID: 1286375278310765456}
   moveSpeed: 500
@@ -1775,7 +1777,6 @@ MonoBehaviour:
   MainCameraObject: {fileID: 5274697766602855799}
   MainCam: {fileID: 4767944616943015844}
   PlayerUI: {fileID: 8639371822032881495}
-  attackDamage: 1
 --- !u!54 &3510545236884635588
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1948,6 +1949,21 @@ MonoBehaviour:
       Synchronize: 1
       ParameterType: 4
   AnimatorParametersExpanded: 0
+--- !u!114 &548407259561202362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113816195454673271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fc604c2fa1a8946b831fa45cede442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  scareOrigin: {fileID: 8046447039624650504}
+  attackDamage: 5
+  attackRange: 5
 --- !u!4 &783498338987375565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119, type: 3}

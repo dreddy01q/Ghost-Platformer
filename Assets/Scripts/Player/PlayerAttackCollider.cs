@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PlayerAttackCollider : MonoBehaviour
 {
-    public PlayerController playerController;
+    public PlayerAttack playerAttack;
     
     private void Awake()
     {
-        playerController = this.GetComponentInParent<PlayerController>();
+        playerAttack = GetComponentInParent<PlayerAttack>();
     }
     
     private void OnTriggerEnter(Collider other)
@@ -24,14 +24,14 @@ public class PlayerAttackCollider : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             
-            other.gameObject.GetComponent<EnemyHealth>().TakeDamage(playerController.attackDamage);
+            other.gameObject.GetComponent<EnemyHealth>().TakeDamage(playerAttack.AttackDamage);
             return;
             
             
             
             try
             {
-                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(playerController.attackDamage);
+                other.gameObject.GetComponent<EnemyHealth>().TakeDamage(playerAttack.AttackDamage);
             }
             catch (Exception e)
             {

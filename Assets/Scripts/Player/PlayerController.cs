@@ -19,7 +19,6 @@ public class PlayerController : NetworkBehaviour
     
     private PlayerSoundEffects soundEffects;
 
-    public GameObject scareOrigin;
     public GameObject plyAppereance;
     
     public GroundChecker groundChecker;
@@ -77,6 +76,7 @@ public class PlayerController : NetworkBehaviour
         set => isInvisible = value;
     }
     public int PlayerID { get => playerID; set => playerID = value; }
+    public Vector3 PlyDirection { get => plyDirection; set => plyDirection = value; }
 
     #endregion
 
@@ -84,6 +84,13 @@ public class PlayerController : NetworkBehaviour
     public GameObject MainCameraObject;
     public Transform MainCam;
     public GameObject PlayerUI;
+
+
+
+
+    public delegate void ScareAction();
+    public static event ScareAction OnScare;
+
 
     public override void OnNetworkSpawn()
     {
@@ -101,6 +108,8 @@ public class PlayerController : NetworkBehaviour
         soundEffects = GetComponent<PlayerSoundEffects>();
 
         rb.freezeRotation = true;
+
+        playerAttack=GetComponent<PlayerAttack>();
 
         GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
@@ -250,12 +259,12 @@ public class PlayerController : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            OnScare(true);
+            playerAttack.Scare();
         }
         
         if (Input.GetKeyUp(KeyCode.E))
         {
-            OnScare(false);
+            //OnScare();
         }
     }
 
@@ -477,33 +486,6 @@ public class PlayerController : NetworkBehaviour
 
     #endregion
 
-    #region Attack/Scare
-
-    public int attackDamage = 5;
-    private float attackRange = 5;
-    void OnScare(bool scare)
-    {
-        RaycastHit hit;
-        Ray downRay = new Ray(scareOrigin.transform.position, Vector3.forward);
-
-        Debug.Log("Attempt scare");
-        ani.SetTrigger("scare");
-        soundEffects.PlaySound(soundEffects.SoundType_Attack);
-
-        if (Physics.Raycast(downRay, out hit) && hit.distance <= attackRange) 
-        //if (Physics.SphereCast(transform.position, 5, plyDirection, out hit, attackRange))
-        {
-            Debug.Log("Object hit");
-            if (hit.collider.tag == "Enemy")
-            {
-                hit.collider.gameObject.GetComponent<HealthSystem>().TakeDamage(attackDamage);
-            }
-        }
-        
-        Debug.DrawRay(scareOrigin.transform.position, plyDirection, Color.red,5);
-    }
-
-    #endregion
 
     #region Timer
     
@@ -516,4 +498,6 @@ public class PlayerController : NetworkBehaviour
     }
 
     #endregion
+
+    private PlayerAttack playerAttack;
 }
