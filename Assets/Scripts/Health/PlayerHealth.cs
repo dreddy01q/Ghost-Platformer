@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerHealth : HealthSystem
 {
     private PlayerController playerController;
-    
     public ParticleSystem smokeParticle;
     
     void Start()
@@ -21,6 +20,8 @@ public class PlayerHealth : HealthSystem
         base.Defeated();
         playerController.enabled = false;
         smokeParticle.Play();
+
+        playerController.plyAppereance.SetActive(false);
 
         //Destroy(gameObject);
 

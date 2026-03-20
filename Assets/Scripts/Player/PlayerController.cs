@@ -205,8 +205,6 @@ public class PlayerController : NetworkBehaviour
         float vertical = Input.GetAxis("Vertical");
         
         playerMovement = new Vector3(horizontal, 0f, vertical);
-        
-//        Debug.Log(playerMovement);
     }
     
     private void getPlyJump()
