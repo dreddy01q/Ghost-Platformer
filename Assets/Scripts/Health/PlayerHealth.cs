@@ -22,7 +22,7 @@ public class PlayerHealth : HealthSystem
         playerController.enabled = false;
         smokeParticle.Play();
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
 
         playerController.GameManage.PlayerManager.PlayerDeath(playerController.PlayerID);
     }

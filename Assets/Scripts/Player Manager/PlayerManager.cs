@@ -1,32 +1,25 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using NUnit.Framework;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using Debug = UnityEngine.Debug;
 
 public class PlayerManager : MonoBehaviour
 {
     public GameObject PlayerPrefab;
-    public static PlayerManager OwnerPlayerManager;
 
-    private GameManage gameManage;
+    private GameManage gameManager;
 
     [Header("Player Trackers")]
-    private static int playerCount = 0;
+    private int playerCount = 0;
     private List<GameObject> players;
     private List<bool> playersActive;
 
-    public static int PlayerCount { get => playerCount; set => playerCount = value; }
+    public int PlayerCount { get => playerCount; set => playerCount = value; }
     public List<GameObject> Players { get => players; set => players = value; }
     public List<bool> PlayersActive { get => playersActive; set => playersActive = value; }
 
     private void Start()
     {
-        gameManage = GetComponent<GameManage>();
+        gameManager = GetComponent<GameManage>();
 
         Players = new List<GameObject>();
         PlayersActive = new List<bool>();   
@@ -48,6 +41,11 @@ public class PlayerManager : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback += ClientConnection;
     }
 
+    private void OnDisable()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback -= ClientConnection;
+    }
+
     private void ClientConnection(ulong clientID)
     {
         PlayerCount++;
@@ -67,7 +65,7 @@ public class PlayerManager : MonoBehaviour
         // Checks status of other players, if no players are alive ends game
         if (!checkActivePlayers())
         {
-            gameManage.EndGame(false);
+            gameManager.EndGame(false);
         }
     }
 
