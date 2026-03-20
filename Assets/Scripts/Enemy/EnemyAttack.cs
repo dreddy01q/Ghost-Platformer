@@ -10,13 +10,7 @@ public class EnemyAttack : NetworkBehaviour
     [SerializeField] float attackCooldown = 3;
     private float attackCooldownCount = 0;
 
-
     private Animator ani;
-    public Animator Ani
-    {
-        get => ani;
-        set => ani = value;
-    }
 
     private void Start()
     {
@@ -25,12 +19,21 @@ public class EnemyAttack : NetworkBehaviour
 
     public void updateAttack(GameObject targetPlayer)
     {
+        attackCooldownCountdown();
         checkAttack(targetPlayer);
+    }
+
+    private void attackCooldownCountdown()
+    {
+        if (attackCooldownCount > 0)
+        {
+            attackCooldownCount -= Time.deltaTime;
+        }
     }
 
     private void checkAttack(GameObject targetPlayer)
     {
-        if (checkAttackCooldown())
+        if (attackCooldownCount <= 0)
         {
             if (checkAttackRange(targetPlayer))
             {
@@ -46,21 +49,12 @@ public class EnemyAttack : NetworkBehaviour
 
     private bool checkAttackCooldown()
     {
-        if (attackCooldownCount <= 0)
-        {
-            return true;
-        }
-        else
-        {
-            attackCooldownCount -= Time.deltaTime;
-            return false;
-        }
+        return attackCooldownCount <=0 ? true : false;
     }
 
     private void enemyAttack()
     {
         attackCooldownCount = attackCooldown;
-
-        Ani.SetTrigger("attack");
+        ani.SetTrigger("attack");
     }
 }

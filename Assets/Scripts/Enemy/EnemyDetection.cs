@@ -13,7 +13,6 @@ public class EnemyDetection : MonoBehaviour
         playerManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerManager>();
     }
 
-
     // Will find the closest player in the detection range
     // This is used to intialy find a player, change player targets if another gets closer and 
     public GameObject GetClosestPlayer(bool findVisiblePlayer = true)
@@ -31,9 +30,6 @@ public class EnemyDetection : MonoBehaviour
                 closestPly = player;
             }
         }
-
-        Debug.Log("Cloest Player is " + closestPly.name);
-
         return closestPly;
     }
 

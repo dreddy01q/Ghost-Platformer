@@ -12,12 +12,4 @@ public class EnemyManager : MonoBehaviour
             enemy.ManualUpdate();
         }
     }
-
-    public void UpdatePlayerRefrence(GameObject playerController)
-    {
-        foreach (EnemyController enemy in enemies)
-        {
-            enemy.UpdatePlayer(playerController);
-        }
-    }
 }
