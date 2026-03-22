@@ -54,4 +54,9 @@ public class HealthSystem : MonoBehaviour
             }
         }
     }
+
+    public void ResetHeatlth()
+    {
+        health = healthMax;
+    }
 }

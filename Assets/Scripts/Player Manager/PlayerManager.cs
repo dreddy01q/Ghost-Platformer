@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDisable()
     {
-        NetworkManager.Singleton.OnClientConnectedCallback -= ClientConnection;
+        //NetworkManager.Singleton.OnClientConnectedCallback -= ClientConnection;
     }
 
     private void ClientConnection(ulong clientID)
@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     // Sets a player death
-    public void PlayerDeath(int playerID)
+    public bool PlayerDeath(int playerID)
     {
         PlayersActive[playerID] = false;
 
@@ -66,7 +66,10 @@ public class PlayerManager : MonoBehaviour
         if (!checkActivePlayers())
         {
             gameManager.EndGame(false);
+            return true;
         }
+
+        return false;
     }
 
     // Checks the status of all players, returns true if there is a player alive.

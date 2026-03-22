@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -35,10 +36,13 @@ public class PlayerController : NetworkBehaviour
         set => isInvisible = value;
     }
 
+    private PlayerHealth playerHealth;
+    private PlayerDeath playerDeath;
     private PlayerMovement playerMovement;
     private PlayerJump playerJump;
     private PlayerAttack playerAttack;
     private PlayerInvisibility playerInvisibility;
+    public PlayerUI playerUI;
 
 
     public override void OnNetworkSpawn()
@@ -59,7 +63,23 @@ public class PlayerController : NetworkBehaviour
         playerAttack =GetComponent<PlayerAttack>();
         playerInvisibility = GetComponent<PlayerInvisibility>();
 
+        playerHealth = GetComponent<PlayerHealth>();
+        playerDeath = GetComponent<PlayerDeath>();
+
         GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
+    }
+
+    public void SetPlayerSpawn(bool value)
+    {
+        this.enabled = value;
+    }
+
+    public void RespawnPlayer()
+    {
+        this.enabled = true;
+        plyAppereance.SetActive(true);
+        playerHealth.ResetHeatlth();
+        playerDeath.RespawnUI.SetActive(false);
     }
     
 
@@ -76,7 +96,8 @@ public class PlayerController : NetworkBehaviour
         getPlyMovement();
         getPlyInvisible();
         getPlyScare();
-       
+
+        playerUI.updateHealthDisplay();
     }
 
 
