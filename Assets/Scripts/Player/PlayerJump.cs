@@ -29,7 +29,7 @@ public class PlayerJump : MonoBehaviour
         SetJumps();
 
         playerController = GetComponent<PlayerController>();
-        ani =GetComponent<Animator>();
+        ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         soundEffects = GetComponent<PlayerSoundEffects>();
     }

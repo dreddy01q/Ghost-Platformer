@@ -69,6 +69,8 @@ public class PlayerController : NetworkBehaviour
     public Transform MainCam;
     public GameObject PlayerUI;
 
+    private bool isInvisible = false;
+
 
 
 
@@ -79,6 +81,7 @@ public class PlayerController : NetworkBehaviour
     private PlayerMovement playerMovement;
     private PlayerJump playerJump;
     private PlayerAttack playerAttack;
+    private PlayerInvisibility playerInvisibility;
 
 
     public override void OnNetworkSpawn()
@@ -101,6 +104,7 @@ public class PlayerController : NetworkBehaviour
         playerMovement= GetComponent<PlayerMovement>();
         playerJump = GetComponent<PlayerJump>();
         playerAttack =GetComponent<PlayerAttack>();
+        playerInvisibility = GetComponent<PlayerInvisibility>();
 
         GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
@@ -197,12 +201,12 @@ public class PlayerController : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            OnInvisible(true);
+            playerInvisibility.OnInvisible(true);
         }
         
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            OnInvisible(false);
+            playerInvisibility.OnInvisible(false);
         }
     }
     
@@ -275,32 +279,5 @@ public class PlayerController : NetworkBehaviour
     }
     
     #endregion
-
-    #region Invisible
-
-
-    private bool isInvisible = false;
-
-    /*
-     * Currently just changes the player apperance to be inactive
-     * In final version will be more refinined
-     */
-    private void OnInvisible(bool invisible)
-    {
-        IsInvisible = invisible;
-        
-        if (invisible)
-        {
-            plyAppereance.SetActive(false);
-        }
-        else
-        {
-            plyAppereance.SetActive(true);  
-        }
-    }
-
-    #endregion
-
-
     
 }
