@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-
-    [SerializeField] private GameObject scareOrigin;
-    private PlayerController playerController;
     private PlayerSoundEffects soundEffects;
     private Animator ani;
 
@@ -18,7 +15,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        playerController=GetComponent<PlayerController>();
         soundEffects = GetComponent<PlayerSoundEffects>();
         ani=GetComponent<Animator>();
     }

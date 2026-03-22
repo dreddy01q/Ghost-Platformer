@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerJump : MonoBehaviour
 {
     public GroundChecker groundChecker;
-    private PlayerController playerController;
+
     private Animator ani;
     private Rigidbody rb;
     private PlayerSoundEffects soundEffects;
@@ -17,21 +17,26 @@ public class PlayerJump : MonoBehaviour
     private float highJumpForce = 10;
     private float longJumpForce = 10;
     private float jumpVelocity = 10f;
-    private float longJumpVelocity = 10f;
+    private float longJumpVelocity = 5;
 
     private int jumpState = 0;      // 0=No Jump, 1=Jumping Up, 2=Coming Down, 3=Landed
     private bool startJump = false;
 
+    private PlayerController playerController;
+    private PlayerMovement playerMovement;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SetTimer();
-        SetJumps();
-
-        playerController = GetComponent<PlayerController>();
         ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+
+        playerController = GetComponent<PlayerController>();
+        playerMovement = GetComponent<PlayerMovement>();
         soundEffects = GetComponent<PlayerSoundEffects>();
+
+        SetTimer();
+        SetJumps();
     }
 
     void SetTimer()
@@ -45,6 +50,7 @@ public class PlayerJump : MonoBehaviour
         standardJumpForce = jumpForce;
         highJumpForce = jumpForce * 1.5f;
         longJumpForce = jumpForce * 0.75f;
+        longJumpVelocity = playerMovement.MoveSpeed * 2f;
     }
 
 
@@ -89,13 +95,13 @@ public class PlayerJump : MonoBehaviour
 
     private void setJumpValues()
     {
-        if (playerController.Crouching)
+        if (playerMovement.Crouching)
         {
 
             // Long Jump from sliding
-            if (playerController.Sliding)
+            if (playerMovement.Sliding)
             {
-                playerController.MoveSpeed = longJumpVelocity;
+                playerMovement.MoveSpeed = longJumpVelocity;
                 jumpForce = longJumpForce;
             }
             else
@@ -131,7 +137,6 @@ public class PlayerJump : MonoBehaviour
         // Jump Timer has ran out
         if (!jumpTimer.IsRunning)
         {
-            Debug.Log("Jump");
             // Gravity takes over
             jumpVelocity += Physics.gravity.y * 2f * Time.fixedDeltaTime;
         }

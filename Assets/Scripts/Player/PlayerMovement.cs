@@ -1,32 +1,40 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Transform MainCam;
+    private Animator ani;
+    private Rigidbody rb;
+
     [Header("Movement Settings")]
     [SerializeField] float moveSpeed = 5;
     [SerializeField] float rotationSpeed = 15f;
     [SerializeField] float smoothTime = 0.2f;
 
+    [Header("Movement Values")]
     float currentSpeed;
     float velocity;
+    Vector3 movement;
+    Vector3 plyDirection;
 
-    public Transform MainCam;
-
+    [Header("Movement Speeds")]
     private float standMoveSpeed = 5;
     private float crouchMoveSpeed = 5;
     private float slideMoveSpeed = 5;
 
+    [Header("Crouch/Slide")]
+    bool crouching = false;
+    bool sliding = false;
+    float slowSpeed = 150;
 
-    private Animator ani;
-    private Rigidbody rb;
 
-    Vector3 movement;
-    private Vector3 plyDirection;
+    public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
     public Vector3 Movement { get => movement; set => movement = value; }
-    public Vector3 PlyDirection { get => plyDirection; set => plyDirection = value; }
+    public bool Crouching { get => crouching; set => crouching = value; }
+    public bool Sliding { get => sliding; set => sliding = value; }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ani = GetComponent<Animator>();
@@ -39,13 +47,15 @@ public class PlayerMovement : MonoBehaviour
         standMoveSpeed = moveSpeed;
         crouchMoveSpeed = standMoveSpeed / 2;
         slideMoveSpeed = standMoveSpeed * 1.5f;
-        //longJumpVelocity = moveSpeed * 2f;
     }
 
     private void FixedUpdate()
     {
         performMovement();
     }
+
+
+    #region Standard Horizontal Movement
 
     void performMovement()
     {
@@ -74,17 +84,11 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-
-    /*
-     * Performs the players movement in direction
-     */
     void performHorizontalMovement(Vector3 adjustedDirection)
     {
         if (movement.z != 0)
         {
             Vector3 velocity = adjustedDirection * (moveSpeed * Time.deltaTime);
-
-            //Vector3 velocity = playerMovement * (moveSpeed * Time.deltaTime);
 
             rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
         }
@@ -94,4 +98,50 @@ public class PlayerMovement : MonoBehaviour
     {
         currentSpeed = Mathf.SmoothDamp(currentSpeed, value, ref velocity, smoothTime);
     }
+
+    #endregion
+
+
+    #region Crouch and Slide
+
+    public void OnCrouch(bool crouch)
+    {
+        crouching = crouch;
+        ani.SetBool("crouch", crouch);
+
+        if (crouching)
+        {
+            if (Mathf.Round(rb.linearVelocity.magnitude) > 0)
+            {
+                moveSpeed = slideMoveSpeed;
+                StartCoroutine(SlowToSlide());
+            }
+            else
+            {
+                moveSpeed = crouchMoveSpeed;
+            }
+        }
+        else
+        {
+            moveSpeed = standMoveSpeed;
+            StopCoroutine(SlowToSlide());
+        }
+    }
+
+    /*
+     * Gradually slower player down to crouch if moving
+     */
+    IEnumerator SlowToSlide()
+    {
+        while (moveSpeed > crouchMoveSpeed && crouching)
+        {
+
+            sliding = true;
+            moveSpeed -= slowSpeed * Time.deltaTime;
+            yield return null;
+        }
+        sliding = false;
+    }
+
+    #endregion
 }
