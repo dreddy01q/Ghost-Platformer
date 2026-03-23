@@ -17,6 +17,19 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> Players { get => players; set => players = value; }
     public List<bool> PlayersActive { get => playersActive; set => playersActive = value; }
 
+
+
+
+    public static List<ulong> PlayerIds { get => playerIds; set => playerIds = value; }
+
+    private static List<ulong> playerIds;
+
+
+
+
+
+
+
     private void Start()
     {
         gameManager = GetComponent<GameManage>();

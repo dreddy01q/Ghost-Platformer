@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MultiplayerTest.unity
     guid: f3dd5475f61d44f4e80011ab73af95c7
+  - enabled: 1
+    path: Assets/Scenes/PlayerLobby.unity
+    guid: 71ddcdad2b4285f468e072f6cd7121bd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

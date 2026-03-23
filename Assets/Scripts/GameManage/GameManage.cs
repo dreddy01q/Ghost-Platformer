@@ -46,4 +46,9 @@ public class GameManage : MonoBehaviour
             GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Lose);
         }
     }
+
+    public void EndHostClient()
+    {
+
+    }
 }
