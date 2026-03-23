@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject PlayerPrefab;
+    // Manages player objects
 
+    public NetworkObject PlayerPrefab;
     private GameManage gameManager;
+    
 
     [Header("Player Trackers")]
     private int playerCount = 0;
@@ -18,56 +20,28 @@ public class PlayerManager : MonoBehaviour
     public List<bool> PlayersActive { get => playersActive; set => playersActive = value; }
 
 
-
-
-    public static List<ulong> PlayerIds { get => playerIds; set => playerIds = value; }
-
-    private static List<ulong> playerIds;
-
-
-
-
-
-
-
     private void Start()
     {
         gameManager = GetComponent<GameManage>();
 
+        playerCount=PlayerNetworkManager.PlayerIds.Count;
+
         Players = new List<GameObject>();
         PlayersActive = new List<bool>();   
+
+        foreach(ulong playerId in PlayerNetworkManager.PlayerIds)
+        {
+            Debug.Log("Spawning player " + playerId);
+            SpawnPlayer(playerId);
+        }
     }
 
-    public void JoinPlayerHost()
+    private void SpawnPlayer(ulong playerId)
     {
-        NetworkManager.Singleton.StartHost();
-    }
-
-    public void JoinPlayerClient()
-    {
-        NetworkManager.Singleton.StartClient();
-        
-    }
-
-    private void OnEnable()
-    {
-        NetworkManager.Singleton.OnClientConnectedCallback += ClientConnection;
-    }
-
-    private void OnDisable()
-    {
-        //NetworkManager.Singleton.OnClientConnectedCallback -= ClientConnection;
-    }
-
-    private void ClientConnection(ulong clientID)
-    {
-        PlayerCount++;
-        NetworkObject playerNetworkObject = NetworkManager.Singleton.ConnectedClients[clientID].PlayerObject;
-
-        playerNetworkObject.gameObject.name += PlayerCount;
-
+        NetworkObject playerNetworkObject=NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
         Players.Add(playerNetworkObject.gameObject);
         PlayersActive.Add(true);
+        Debug.Log("Player spawned player " + playerId);
     }
 
     // Sets a player death

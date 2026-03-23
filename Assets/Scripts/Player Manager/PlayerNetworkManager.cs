@@ -20,6 +20,7 @@ public class PlayerNetworkManager : MonoBehaviour
     {
         Debug.Log("Host");
         NetworkManager.Singleton.StartHost();
+        Debug.Log("Host");
     }
 
     public void JoinPlayerClient()
@@ -47,6 +48,7 @@ public class PlayerNetworkManager : MonoBehaviour
 
     private void ClientConnection(ulong clientID)
     {
+        Debug.Log("Client " + clientID + " has called");
         PlayerInstance.PlayerClientId = clientID;
         PlayerIds.Add(clientID);
 

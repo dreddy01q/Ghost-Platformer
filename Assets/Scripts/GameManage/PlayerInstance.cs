@@ -15,6 +15,7 @@ public class PlayerInstance : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        /*
         playerNetworkManager = GetComponent<PlayerNetworkManager>();
 
         if (playerHost)
@@ -27,6 +28,7 @@ public class PlayerInstance : NetworkBehaviour
             Debug.Log("The client will join");
             playerNetworkManager.JoinPlayerClient();
         }
+        */
     }
 
     public void EndGame()

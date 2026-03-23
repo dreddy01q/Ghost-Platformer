@@ -6125,7 +6125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c57f6c051132f45bb5dda24582ae19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  PlayerPrefab: {fileID: 0}
+  PlayerPrefab: {fileID: 4757560665029205982, guid: 87e44dbe676ad8b489060058d8baec93, type: 3}
 --- !u!114 &1976413026
 MonoBehaviour:
   m_ObjectHideFlags: 0
