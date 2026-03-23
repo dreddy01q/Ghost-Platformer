@@ -5772,6 +5772,7 @@ GameObject:
   - component: {fileID: 1976413025}
   - component: {fileID: 1976413023}
   - component: {fileID: 1976413024}
+  - component: {fileID: 1976413027}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -5878,6 +5879,18 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &1976413027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976413020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2211c87e88ab151459b1b0a53bbd1a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInstance
 --- !u!1 &1984447112
 GameObject:
   m_ObjectHideFlags: 0
