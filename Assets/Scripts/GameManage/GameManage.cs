@@ -41,11 +41,11 @@ public class GameManage : NetworkBehaviour
         GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Music, "stop");
 
         foreach(NetworkObject player in PlayerManager.NetworkPlayers){
-            performEndgameClientRpc(player, win);
+            performEndgameRpc(player, win);
         }
     }
 
-    private void performEndgameClientRpc(NetworkObject player, bool win)
+    private void performEndgameRpc(NetworkObject player, bool win)
     {
         player.GetComponent<PlayerController>().GameManage.SetPlayerCanvasDisplayClientRpc(win);
         player.GetComponent<PlayerDeath>().StopRespawnClientRpc();
