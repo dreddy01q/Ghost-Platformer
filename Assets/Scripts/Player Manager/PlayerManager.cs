@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerManager : NetworkBehaviour
@@ -14,11 +15,13 @@ public class PlayerManager : NetworkBehaviour
     [Header("Player Trackers")]
     private int playerCount = 0;
     private GameObject[] players;
+    private NetworkObject[] networkPlayers;
     private bool[] playersActive;
     private int playerArrayId = 0;
 
     public int PlayerCount { get => playerCount; set => playerCount = value; }
     public GameObject[] Players { get => players; set => players = value; }
+    public NetworkObject[] NetworkPlayers { get => networkPlayers; set => networkPlayers = value; }
     public bool[] PlayersActive { get => playersActive; set => playersActive = value; }
 
 
@@ -29,6 +32,7 @@ public class PlayerManager : NetworkBehaviour
         {
             playerCount = PlayerNetworkManager.PlayerIds.Count;
             Players = new GameObject[playerCount];
+            NetworkPlayers = new NetworkObject[playerCount];
             PlayersActive = new bool[PlayerCount];
             foreach (ulong playerId in PlayerNetworkManager.PlayerIds)
             {
@@ -73,6 +77,7 @@ public class PlayerManager : NetworkBehaviour
         playerNetworkObject.GetComponent<PlayerController>().SetPlayerIdClientRpc(playerId, playerArrayId);
 
         Players[playerArrayId] = playerNetworkObject.gameObject;
+        NetworkPlayers[playerArrayId] = playerNetworkObject;
         PlayersActive[playerArrayId] = true;
     }
 
@@ -87,11 +92,10 @@ public class PlayerManager : NetworkBehaviour
     public bool PlayerDeath(int playerID)
     {
         PlayersActive[playerID] = false;
-
         // Checks status of other players, if no players are alive ends game
         if (!checkActivePlayers())
         {
-            //gameManager.EndGame(false);
+            gameManager.EndGame(false);
             return true;
         }
 

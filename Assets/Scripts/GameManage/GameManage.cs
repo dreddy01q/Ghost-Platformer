@@ -1,8 +1,9 @@
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameManage : MonoBehaviour
+public class GameManage : NetworkBehaviour
 {
     public GameObject Canvas;
     private CanvasManager CanvasManage;
@@ -39,6 +40,21 @@ public class GameManage : MonoBehaviour
         endGame = true;
         GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Music, "stop");
 
+        foreach(NetworkObject player in PlayerManager.NetworkPlayers){
+            performEndgameClientRpc(player, win);
+        }
+    }
+
+    private void performEndgameClientRpc(NetworkObject player, bool win)
+    {
+        player.GetComponent<PlayerController>().GameManage.SetPlayerCanvasDisplayClientRpc(win);
+        player.GetComponent<PlayerDeath>().StopRespawnClientRpc();
+    }
+
+    [ClientRpc]
+    public void SetPlayerCanvasDisplayClientRpc(bool win)
+    {
+        Debug.Log("Time to end this");
         if (win)
         {
             CanvasManager.displayWin(GhostManager);

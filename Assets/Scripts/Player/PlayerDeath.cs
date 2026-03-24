@@ -47,6 +47,13 @@ public class PlayerDeath : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void StopRespawnClientRpc()
+    {
+        RespawnUI.SetActive(false);
+        StopCoroutine(RespawnCount());
+    }
+
     IEnumerator RespawnCount()
     {
         while (respawnCountdown > 0) 
