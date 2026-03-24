@@ -25,7 +25,9 @@ public class PlayerHealth : HealthSystem
 
         playerController.plyAppereance.SetActive(false);
 
-        bool gameOver = playerController.GameManage.PlayerManager.PlayerDeath(playerController.PlayerArrayId);
+        playerDeath.SetPlayerDeath();
+
+        //bool gameOver = playerController.GameManage.PlayerManager.PlayerDeath(playerController.PlayerArrayId);
         //if (!gameOver)
         {
             playerDeath.StartRespawn();

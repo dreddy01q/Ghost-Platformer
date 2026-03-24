@@ -20,9 +20,23 @@ public class PlayerDeath : NetworkBehaviour
         playerController = GetComponent<PlayerController>();
     }
 
+
+    public void SetPlayerDeath()
+    {
+        if (IsClient)
+        {
+            playerController.GameManage.PlayerManager.PlayerDeathServerRpc(playerController.PlayerArrayId);
+        }
+        else
+        {
+            playerController.GameManage.PlayerManager.PlayerDeath(playerController.PlayerArrayId);
+        }
+    }
+
     public void StartRespawn()
     {
         Debug.Log("Called here");
+        Debug.Log("I died name is " + gameObject.name + ". My ID is " + playerController.PlayerId + ". My array id is " + playerController.PlayerArrayId);
         if (!respawning && IsOwner)
         {
             respawning = true;

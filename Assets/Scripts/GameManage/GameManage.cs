@@ -11,6 +11,8 @@ public class GameManage : MonoBehaviour
     private GhostManager GhostManage;
     private GameSoundEffects GameSound;
 
+    private bool endGame = false;
+
     public PlayerManager PlayerManager { get => playerManager; set => playerManager = value; }
     public GhostManager GhostManager { get => GhostManage; set => GhostManage = value; }
     public CanvasManager CanvasManager { get => CanvasManage; set => CanvasManage = value; }
@@ -34,6 +36,7 @@ public class GameManage : MonoBehaviour
 
     public void EndGame(bool win)
     {
+        endGame = true;
         GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Music, "stop");
 
         if (win)

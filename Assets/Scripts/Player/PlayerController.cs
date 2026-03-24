@@ -11,6 +11,7 @@ public class PlayerController : NetworkBehaviour
 {
     private ulong playerId;
     private int playerArrayId;
+    public ulong PlayerId { get => playerId; set => playerId = value; }
     public int PlayerArrayId { get => playerArrayId; set => playerArrayId = value; }
 
 
@@ -45,12 +46,18 @@ public class PlayerController : NetworkBehaviour
     private PlayerInvisibility playerInvisibility;
     public PlayerUI playerUI;
 
+    [ClientRpc]
+    public void SetPlayerIdClientRpc(ulong playerID, int playerArrayID)
+    {
+        SetPlayerId(playerID, playerArrayID);
+    }
+
     public void SetPlayerId(ulong playerID, int playerArrayID)
     {
         this.playerId = playerID;
         this.playerArrayId = playerArrayID;
 
-        Debug.Log("My ID is " + playerId + ". My array id is " + playerArrayId);
+        Debug.Log("My name is "+gameObject.name+". My ID is " + playerId + ". My array id is " + playerArrayId);
         //Debug.Log(gameManage.PlayerManager.PlayersActive[playerArrayId]);
     }
 
@@ -90,9 +97,19 @@ public class PlayerController : NetworkBehaviour
         playerHealth.ResetHeatlth();
         playerDeath.RespawnUI.SetActive(false);
 
-        gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
+        if (IsClient)
+        {
+            gameManage.PlayerManager.RespawnPlayerServerRpc(playerId, PlayerArrayId);
+        }
+        else
+        {
+            gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
+        }
+
+        //gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
     }
-    
+   
+
 
     // Update is called once per frame
     void Update()

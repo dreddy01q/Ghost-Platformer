@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : NetworkBehaviour
 {
     // Manages player objects
 
@@ -13,51 +13,74 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Player Trackers")]
     private int playerCount = 0;
-    private List<GameObject> players;
-    private List<bool> playersActive;
+    private GameObject[] players;
+    private bool[] playersActive;
     private int playerArrayId = 0;
 
     public int PlayerCount { get => playerCount; set => playerCount = value; }
-    public List<GameObject> Players { get => players; set => players = value; }
-    public List<bool> PlayersActive { get => playersActive; set => playersActive = value; }
+    public GameObject[] Players { get => players; set => players = value; }
+    public bool[] PlayersActive { get => playersActive; set => playersActive = value; }
 
 
     private void Start()
     {
         gameManager = GetComponent<GameManage>();
-
-        playerCount=PlayerNetworkManager.PlayerIds.Count;
-
-        Players = new List<GameObject>();
-        PlayersActive = new List<bool>();   
-
-        foreach(ulong playerId in PlayerNetworkManager.PlayerIds)
+        if (IsServer)
         {
-            Debug.Log("Spawning player " + playerId);
-            SpawnPlayer(playerId);
+            playerCount = PlayerNetworkManager.PlayerIds.Count;
+            Players = new GameObject[playerCount];
+            PlayersActive = new bool[PlayerCount];
+            foreach (ulong playerId in PlayerNetworkManager.PlayerIds)
+            {
+                Debug.Log("Spawning player " + playerId);
+                IntialSpawnPlayer(playerId);
+            }
+        }
+        else
+        {
+            Debug.Log("Im a client");
         }
     }
 
-    private void SpawnPlayer(ulong playerId)
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void RespawnPlayerServerRpc(ulong playerId, int playerArrayId)
     {
-        NetworkObject playerNetworkObject=NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
-        playerNetworkObject.gameObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
+        RespawnPlayer(playerId,playerArrayId);
+    }
 
-        Players.Add(playerNetworkObject.gameObject);
-        PlayersActive.Add(true);
-
+    private void IntialSpawnPlayer(ulong playerId)
+    {
+        SpawnPlayer(playerId, playerArrayId);
         playerArrayId++;
     }
 
-    private void RespawnPlayer(ulong playerId, int playerArrayId)
+    public void RespawnPlayer(ulong playerId, int playerArrayId)
     {
         Destroy(Players[playerArrayId].gameObject);
+        SpawnPlayer(playerId, playerArrayId);
+    }
+
+    private void SpawnPlayer(ulong playerId, int playerArrayId)
+    {
+        Debug.Log("I am a host: " + IsHost + ". I am spawning player " + playerId + " with " + playerArrayId);
 
         NetworkObject playerNetworkObject = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
-        playerNetworkObject.gameObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
+
+
+        playerNetworkObject.name += playerId;
+        playerNetworkObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
+        //if(playerNetworkObject.is)
+        playerNetworkObject.GetComponent<PlayerController>().SetPlayerIdClientRpc(playerId, playerArrayId);
 
         Players[playerArrayId] = playerNetworkObject.gameObject;
         PlayersActive[playerArrayId] = true;
+    }
+
+
+    [Rpc(SendTo.Server,InvokePermission =RpcInvokePermission.Everyone)]
+    public void PlayerDeathServerRpc(int playerID)
+    {
+        PlayerDeath(playerID);
     }
 
     // Sets a player death
@@ -68,7 +91,7 @@ public class PlayerManager : MonoBehaviour
         // Checks status of other players, if no players are alive ends game
         if (!checkActivePlayers())
         {
-            gameManager.EndGame(false);
+            //gameManager.EndGame(false);
             return true;
         }
 

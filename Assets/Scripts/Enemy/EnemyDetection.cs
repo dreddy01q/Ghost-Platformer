@@ -35,13 +35,13 @@ public class EnemyDetection : MonoBehaviour
 
     public GameObject GetClosestActivePlayer(bool findVisiblePlayer = true)
     {
-        Debug.LogWarning("Player 1 active: "+ playerManager.Players.Count);
+        Debug.LogWarning("Player 1 active: "+ playerManager.Players.Length);
         GameObject closestPly = null;
         float distance = detectionRange;
 
 
         // Check each active player
-        for(int i = 0; i < playerManager.Players.Count; i++)
+        for(int i = 0; i < playerManager.Players.Length; i++)
         {
             if (playerManager.PlayersActive[i])
             {
