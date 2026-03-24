@@ -9,8 +9,9 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : NetworkBehaviour
 {
-    private int playerID;
-    public int PlayerID { get => playerID; set => playerID = value; }
+    private ulong playerId;
+    private int playerArrayId;
+    public int PlayerArrayId { get => playerArrayId; set => playerArrayId = value; }
 
 
     public GameObject MainCameraObject;
@@ -43,6 +44,12 @@ public class PlayerController : NetworkBehaviour
     private PlayerAttack playerAttack;
     private PlayerInvisibility playerInvisibility;
     public PlayerUI playerUI;
+
+    public void SetPlayerId(ulong playerID, int playerArrayID)
+    {
+        this.playerId = playerID;
+        this.playerArrayId = playerArrayID;
+    }
 
 
     public override void OnNetworkSpawn()

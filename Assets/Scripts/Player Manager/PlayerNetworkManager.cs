@@ -11,11 +11,6 @@ public class PlayerNetworkManager : MonoBehaviour
 
     public static List<ulong> PlayerIds { get => playerIds; set => playerIds = value; }
 
-    private void Start()
-    {
-
-    }
-
     public void JoinPlayerHost()
     {
         Debug.Log("Host");

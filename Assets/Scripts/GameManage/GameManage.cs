@@ -21,6 +21,7 @@ public class GameManage : MonoBehaviour
         GhostManager = GetComponent<GhostManager>();
         CanvasManager = Canvas.GetComponent<CanvasManager>();
         GameSoundEffects = GetComponent<GameSoundEffects>();
+        playerManager=GetComponent<PlayerManager>();
     }
 
     public void GhostFound()

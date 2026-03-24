@@ -26,7 +26,8 @@ public class EnemyMovement : NetworkBehaviour
     public void MovementUpdate()
     {
         // Tries to get a player that is in range
-        GameObject detectedTarget = enemyDetection.GetClosestPlayer();
+        //GameObject detectedTarget = enemyDetection.GetClosestPlayer();
+        GameObject detectedTarget = enemyDetection.GetClosestActivePlayer();
 
         // If there is a player in range
         if (detectedTarget != null) 

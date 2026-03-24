@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     // Manages player objects
 
     public NetworkObject PlayerPrefab;
+    public GameObject[] PlayerSpawns;
     private GameManage gameManager;
     
 
@@ -14,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     private int playerCount = 0;
     private List<GameObject> players;
     private List<bool> playersActive;
+    private int playerArrayId = 0;
 
     public int PlayerCount { get => playerCount; set => playerCount = value; }
     public List<GameObject> Players { get => players; set => players = value; }
@@ -41,6 +43,9 @@ public class PlayerManager : MonoBehaviour
         NetworkObject playerNetworkObject=NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
         Players.Add(playerNetworkObject.gameObject);
         PlayersActive.Add(true);
+
+        playerNetworkObject.gameObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
+        playerArrayId++;
         Debug.Log("Player spawned player " + playerId);
     }
 
