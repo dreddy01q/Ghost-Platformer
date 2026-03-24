@@ -49,6 +49,9 @@ public class PlayerController : NetworkBehaviour
     {
         this.playerId = playerID;
         this.playerArrayId = playerArrayID;
+
+        Debug.Log("My ID is " + playerId + ". My array id is " + playerArrayId);
+        //Debug.Log(gameManage.PlayerManager.PlayersActive[playerArrayId]);
     }
 
 
@@ -83,10 +86,11 @@ public class PlayerController : NetworkBehaviour
 
     public void RespawnPlayer()
     {
-        this.enabled = true;
         plyAppereance.SetActive(true);
         playerHealth.ResetHeatlth();
         playerDeath.RespawnUI.SetActive(false);
+
+        gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
     }
     
 

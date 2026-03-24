@@ -41,12 +41,23 @@ public class PlayerManager : MonoBehaviour
     private void SpawnPlayer(ulong playerId)
     {
         NetworkObject playerNetworkObject=NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
+        playerNetworkObject.gameObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
+
         Players.Add(playerNetworkObject.gameObject);
         PlayersActive.Add(true);
 
-        playerNetworkObject.gameObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
         playerArrayId++;
-        Debug.Log("Player spawned player " + playerId);
+    }
+
+    private void RespawnPlayer(ulong playerId, int playerArrayId)
+    {
+        Destroy(Players[playerArrayId].gameObject);
+
+        NetworkObject playerNetworkObject = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
+        playerNetworkObject.gameObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
+
+        Players[playerArrayId] = playerNetworkObject.gameObject;
+        PlayersActive[playerArrayId] = true;
     }
 
     // Sets a player death
