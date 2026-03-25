@@ -48,6 +48,9 @@ public class EnemyMovement : NetworkBehaviour
 
             stopEnemyMovement();
         }
+
+        GameObject enemyTarget= enemyDetection.GetEnemyTarget();
+
     }
 
     /*
