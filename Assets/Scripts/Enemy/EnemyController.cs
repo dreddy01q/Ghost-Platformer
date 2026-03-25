@@ -8,6 +8,7 @@ public class EnemyController : NetworkBehaviour
 
     private EnemyAttack enemyAttack;
     private EnemyMovement enemyMovement;
+    private EnemyDetection enemyDetection;
     private Animator ani;
 
     public Animator Ani
@@ -19,6 +20,7 @@ public class EnemyController : NetworkBehaviour
     {
         enemyAttack = GetComponent<EnemyAttack>();
         enemyMovement = GetComponent<EnemyMovement>();
+        enemyDetection=GetComponent<EnemyDetection>();
 
         ani = GetComponent<Animator>();
     }
@@ -28,9 +30,9 @@ public class EnemyController : NetworkBehaviour
         if (!defeated) 
         {
             enemyMovement.MovementUpdate();
-            if (enemyMovement.CurrentTargetPlayer != null)
+            if (enemyDetection.CurrentTargetPlayer != null)
             {
-                enemyAttack.updateAttack(enemyMovement.CurrentTargetPlayer);
+                enemyAttack.updateAttack(enemyDetection.CurrentTargetPlayer);
             }
         }
     }

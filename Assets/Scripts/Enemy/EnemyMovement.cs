@@ -5,13 +5,13 @@ using UnityEngine.AI;
 public class EnemyMovement : NetworkBehaviour
 {
     private EnemyDetection enemyDetection;
-    private GameObject currentTargetPlayer;
+    //private GameObject currentTargetPlayer;
 
     private NavMeshAgent agent;
     private Animator ani;
     private Rigidbody rb;
 
-    public GameObject CurrentTargetPlayer { get => currentTargetPlayer; set => currentTargetPlayer = value; }
+    //public GameObject CurrentTargetPlayer { get => currentTargetPlayer; set => currentTargetPlayer = value; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,62 +25,13 @@ public class EnemyMovement : NetworkBehaviour
 
     public void MovementUpdate()
     {
-        // Tries to get a player that is in range
-        //GameObject detectedTarget = enemyDetection.GetClosestPlayer();
-        GameObject detectedTarget = enemyDetection.GetClosestActivePlayer();
-
-        // If there is a player in range
-        if (detectedTarget != null) 
-        {
-            checkDetectionTarget(detectedTarget);
-            moveTowardsPlayer(currentTargetPlayer);
+        GameObject playerTarget=enemyDetection.GetTargetPlayer();
+        if (playerTarget != null) {
+            moveTowardsPlayer(playerTarget);
         }
         else
         {
-            // Still chasing a player, but out of range
-            if (currentTargetPlayer != null) {
-                if (!enemyDetection.ForgetTargetCheck(agent.remainingDistance))
-                {
-                    moveTowardsPlayer(currentTargetPlayer);
-                    return;
-                }
-            }
-
             stopEnemyMovement();
-        }
-
-        GameObject enemyTarget= enemyDetection.GetEnemyTarget();
-
-    }
-
-    /*
-     * Checks if the current detected target is the same as the current target
-     */
-    private void checkDetectionTarget(GameObject detectedTarget)
-    {
-        // There is no current target
-        if (currentTargetPlayer == null)
-        {
-            currentTargetPlayer = detectedTarget;
-        }
-
-        // The current target is not the closests detected
-        if (currentTargetPlayer != detectedTarget)
-        {
-            attemptSwitchEnemyTarget(detectedTarget);
-        }
-    }
-
-    /*
-     * WIll attempt to switch to a new targte if it is in a certain range
-     */
-    private void attemptSwitchEnemyTarget(GameObject targetPlayer)
-    {
-        // Checks if the new target is close enough to switch to
-        float distance = Vector3.Distance(this.transform.position, targetPlayer.transform.position);
-        if (enemyDetection.SwitchTargetCheck(distance))
-        {
-            currentTargetPlayer = targetPlayer;
         }
     }
 
