@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class Gap : MonoBehaviour
 {
-    private GameManage gameManage;
-    
-    private void Start()
-    {
-        gameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
-    }
-
     private void OnCollisionEnter(Collision other)
     {
         PlayerDeath(other);

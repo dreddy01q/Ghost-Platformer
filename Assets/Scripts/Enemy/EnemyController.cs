@@ -28,7 +28,10 @@ public class EnemyController : NetworkBehaviour
         if (!defeated) 
         {
             enemyMovement.MovementUpdate();
-            enemyAttack.updateAttack(enemyMovement.CurrentTargetPlayer);
+            if (enemyMovement.CurrentTargetPlayer != null)
+            {
+                enemyAttack.updateAttack(enemyMovement.CurrentTargetPlayer);
+            }
         }
     }
 

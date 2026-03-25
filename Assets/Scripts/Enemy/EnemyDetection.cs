@@ -33,6 +33,35 @@ public class EnemyDetection : MonoBehaviour
         return closestPly;
     }
 
+    public GameObject GetClosestActivePlayer(bool findVisiblePlayer = true)
+    {
+        Debug.LogWarning("Player 1 active: "+ playerManager.Players.Length);
+        GameObject closestPly = null;
+        float distance = detectionRange;
+
+
+        // Check each active player
+        for(int i = 0; i < playerManager.Players.Length; i++)
+        {
+            if (playerManager.PlayersActive[i])
+            {
+                GameObject player = playerManager.Players[i];
+                float distanceToPly = Vector3.Distance(this.transform.position, player.transform.position);
+
+                // Closest player
+                if (distanceToPly <= distance)
+                {
+                    distance = distanceToPly;
+                    closestPly = player;
+                    Debug.Log(playerManager.Players[i].name + " is targeted!");
+                }
+            }
+        }
+
+        Debug.Log(closestPly.name + " is the final target!");
+        return closestPly;
+    }
+
     // The enemy will only switch targets to another player if they get within a certain target switch Range
     public bool SwitchTargetCheck(float distanceToTarget)
     {

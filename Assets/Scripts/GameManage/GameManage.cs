@@ -1,8 +1,9 @@
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameManage : MonoBehaviour
+public class GameManage : NetworkBehaviour
 {
     public GameObject Canvas;
     private CanvasManager CanvasManage;
@@ -10,6 +11,8 @@ public class GameManage : MonoBehaviour
     private PlayerManager playerManager;
     private GhostManager GhostManage;
     private GameSoundEffects GameSound;
+
+    private bool endGame = false;
 
     public PlayerManager PlayerManager { get => playerManager; set => playerManager = value; }
     public GhostManager GhostManager { get => GhostManage; set => GhostManage = value; }
@@ -21,6 +24,7 @@ public class GameManage : MonoBehaviour
         GhostManager = GetComponent<GhostManager>();
         CanvasManager = Canvas.GetComponent<CanvasManager>();
         GameSoundEffects = GetComponent<GameSoundEffects>();
+        playerManager=GetComponent<PlayerManager>();
     }
 
     public void GhostFound()
@@ -33,8 +37,24 @@ public class GameManage : MonoBehaviour
 
     public void EndGame(bool win)
     {
+        endGame = true;
         GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Music, "stop");
 
+        foreach(NetworkObject player in PlayerManager.NetworkPlayers){
+            performEndgameRpc(player, win);
+        }
+    }
+
+    private void performEndgameRpc(NetworkObject player, bool win)
+    {
+        player.GetComponent<PlayerController>().GameManage.SetPlayerCanvasDisplayClientRpc(win);
+        player.GetComponent<PlayerDeath>().StopRespawnClientRpc();
+    }
+
+    [ClientRpc]
+    public void SetPlayerCanvasDisplayClientRpc(bool win)
+    {
+        Debug.Log("Time to end this");
         if (win)
         {
             CanvasManager.displayWin(GhostManager);
@@ -45,5 +65,10 @@ public class GameManage : MonoBehaviour
             CanvasManager.displayLose();
             GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Lose);
         }
+    }
+
+    public void EndHostClient()
+    {
+
     }
 }

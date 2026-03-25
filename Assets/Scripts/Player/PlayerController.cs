@@ -9,8 +9,10 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : NetworkBehaviour
 {
-    private int playerID;
-    public int PlayerID { get => playerID; set => playerID = value; }
+    private ulong playerId;
+    private int playerArrayId;
+    public ulong PlayerId { get => playerId; set => playerId = value; }
+    public int PlayerArrayId { get => playerArrayId; set => playerArrayId = value; }
 
 
     public GameObject MainCameraObject;
@@ -44,6 +46,21 @@ public class PlayerController : NetworkBehaviour
     private PlayerInvisibility playerInvisibility;
     public PlayerUI playerUI;
 
+    [ClientRpc]
+    public void SetPlayerIdClientRpc(ulong playerID, int playerArrayID)
+    {
+        SetPlayerId(playerID, playerArrayID);
+    }
+
+    public void SetPlayerId(ulong playerID, int playerArrayID)
+    {
+        this.playerId = playerID;
+        this.playerArrayId = playerArrayID;
+
+        Debug.Log("My name is "+gameObject.name+". My ID is " + playerId + ". My array id is " + playerArrayId);
+        //Debug.Log(gameManage.PlayerManager.PlayersActive[playerArrayId]);
+    }
+
 
     public override void OnNetworkSpawn()
     {
@@ -76,12 +93,23 @@ public class PlayerController : NetworkBehaviour
 
     public void RespawnPlayer()
     {
-        this.enabled = true;
         plyAppereance.SetActive(true);
         playerHealth.ResetHeatlth();
         playerDeath.RespawnUI.SetActive(false);
+
+        if (IsClient)
+        {
+            gameManage.PlayerManager.RespawnPlayerServerRpc(playerId, PlayerArrayId);
+        }
+        else
+        {
+            gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
+        }
+
+        //gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
     }
-    
+   
+
 
     // Update is called once per frame
     void Update()
