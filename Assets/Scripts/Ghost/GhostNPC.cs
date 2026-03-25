@@ -3,10 +3,7 @@ using UnityEngine;
 public class GhostNPC : MonoBehaviour
 {
     private Animator Animator;
-
     private GameManage GameManager;
-    private GhostManager GhostManager;
-
     private SoundProximity SoundProximity;
 
     private bool found = false;
@@ -15,7 +12,6 @@ public class GhostNPC : MonoBehaviour
     {
         Animator = this.GetComponent<Animator>();
         GameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
-        GhostManager = GameManager.GetComponent<GhostManager>();
         SoundProximity = GetComponent<SoundProximity>();
     }
 

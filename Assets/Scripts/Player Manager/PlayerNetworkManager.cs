@@ -1,27 +1,42 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using TMPro;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerNetworkManager : MonoBehaviour
 {
+    public string HostIPAddress;
+    ushort HostPort = 7777;
+    public TMP_InputField InputField;
+
+    public string PlayerLobby;
     // Manages abstract player connections
     private static List<ulong> playerIds = new List<ulong>();
-
     public static List<ulong> PlayerIds { get => playerIds; set => playerIds = value; }
 
     public void JoinPlayerHost()
     {
-        Debug.Log("Host");
         NetworkManager.Singleton.StartHost();
-        Debug.Log("Host");
+        loadPlayerLobby();
     }
 
     public void JoinPlayerClient()
     {
-        Debug.Log("Client");
+        //HostIPAddress = InputField.text;
+        //var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        //utp.ConnectionData.Address = HostIPAddress;
+        //utp.ConnectionData.Port = HostPort;
         NetworkManager.Singleton.StartClient();
+        loadPlayerLobby();
+    }
+
+    private void loadPlayerLobby()
+    {
+        SceneManager.LoadScene(PlayerLobby);
     }
 
     public void DisconnectClient()
@@ -43,11 +58,8 @@ public class PlayerNetworkManager : MonoBehaviour
 
     private void ClientConnection(ulong clientID)
     {
-        Debug.Log("Client " + clientID + " has called");
         PlayerInstance.PlayerClientId = clientID;
         PlayerIds.Add(clientID);
-
-        Debug.Log("Player " + clientID + " has joined");
     }
 
     private void ClientDisonnect(ulong clientID) {

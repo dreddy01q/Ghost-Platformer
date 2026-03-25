@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SoundProximity : MonoBehaviour
@@ -5,25 +6,36 @@ public class SoundProximity : MonoBehaviour
     public AudioSource Audio;
     public float playDistance = 15;
 
-    private Transform pos;
     private Transform plyPos;
 
     // Start is called before the first frame update
     void Start()
     {
-        plyPos = GameObject.FindGameObjectWithTag("Player").transform;
-        pos = gameObject.transform;
+        try
+        {
+            plyPos = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        catch(Exception e)
+        {
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        AdjustVolume();
+        if (plyPos != null) {
+            AdjustVolume();
+        }
+        else
+        {
+            Audio.volume = 0;
+        }
     }
 
     private void AdjustVolume()
     {
-        float distance = Vector3.Distance(plyPos.position, pos.position);
+        float distance = Vector3.Distance(gameObject.transform.position, plyPos.position);
 
         if (distance > playDistance)
         {
