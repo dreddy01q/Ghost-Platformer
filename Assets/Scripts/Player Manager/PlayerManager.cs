@@ -6,18 +6,17 @@ using UnityEngine;
 public class PlayerManager : NetworkBehaviour
 {
     // Manages player objects
-
-    public NetworkObject PlayerPrefab;
-    public GameObject[] PlayerSpawns;
     private GameManage gameManager;
-    
+
+    private PlayerSpawner playerSpawner;
+
 
     [Header("Player Trackers")]
     private int playerCount = 0;
     private GameObject[] players;
     private NetworkObject[] networkPlayers;
     private bool[] playersActive;
-    private int playerArrayId = 0;
+    private int playerArrayIdCount = 0;
 
     public int PlayerCount { get => playerCount; set => playerCount = value; }
     public GameObject[] Players { get => players; set => players = value; }
@@ -28,6 +27,7 @@ public class PlayerManager : NetworkBehaviour
     private void Start()
     {
         gameManager = GetComponent<GameManage>();
+        playerSpawner=GetComponent<PlayerSpawner>();
         if (IsServer)
         {
             playerCount = PlayerNetworkManager.PlayerIds.Count;
@@ -54,28 +54,24 @@ public class PlayerManager : NetworkBehaviour
 
     private void IntialSpawnPlayer(ulong playerId)
     {
-        SpawnPlayer(playerId, playerArrayId);
-        playerArrayId++;
+        NetworkObject playerNetworkObject = playerSpawner.SpawnPlayer(playerId, playerArrayIdCount);
+        playerSpawnSetup(playerNetworkObject, playerArrayIdCount);
+
+        playerArrayIdCount++;
+
+
     }
 
     public void RespawnPlayer(ulong playerId, int playerArrayId)
     {
         Destroy(Players[playerArrayId].gameObject);
-        SpawnPlayer(playerId, playerArrayId);
+
+        NetworkObject playerNetworkObject = playerSpawner.RespawnPlayer(playerId, playerArrayId);
+        playerSpawnSetup(playerNetworkObject, playerArrayId);
     }
 
-    private void SpawnPlayer(ulong playerId, int playerArrayId)
+    private void playerSpawnSetup(NetworkObject playerNetworkObject, int playerArrayId)
     {
-        Debug.Log("I am a host: " + IsHost + ". I am spawning player " + playerId + " with " + playerArrayId);
-
-        NetworkObject playerNetworkObject = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(PlayerPrefab, playerId, true, true, false, Vector3.zero);
-
-
-        playerNetworkObject.name += playerId;
-        playerNetworkObject.GetComponent<PlayerController>().SetPlayerId(playerId, playerArrayId);
-        //if(playerNetworkObject.is)
-        playerNetworkObject.GetComponent<PlayerController>().SetPlayerIdClientRpc(playerId, playerArrayId);
-
         Players[playerArrayId] = playerNetworkObject.gameObject;
         NetworkPlayers[playerArrayId] = playerNetworkObject;
         PlayersActive[playerArrayId] = true;
