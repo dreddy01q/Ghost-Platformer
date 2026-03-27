@@ -2,6 +2,7 @@ using TMPro;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManage : NetworkBehaviour
 {
@@ -65,10 +66,5 @@ public class GameManage : NetworkBehaviour
             CanvasManager.displayLose();
             GameSoundEffects.PlaySound(GameSoundEffects.SoundType_Lose);
         }
-    }
-
-    public void EndHostClient()
-    {
-
     }
 }
