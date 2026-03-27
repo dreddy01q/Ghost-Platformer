@@ -10,24 +10,38 @@ public class PlayerLobby : NetworkBehaviour
 {
     public string MainLevel;
 
-    public TextMeshProUGUI PlayerCountDisplay;
-    public TextMeshProUGUI TestDetails;
-    public void StartGame()
-    {
-        //SceneManager.LoadScene(MainLevel);
-        NetworkManager.SceneManager.LoadScene(MainLevel,LoadSceneMode.Single);
-    }
+    [Header("Host Pop Up")]
+    public GameObject HostDetailsBt;
+    public Menu HostDetailsPopup;
+    public TextMeshProUGUI HostDetails;
 
-    public void JoinLobby()
+    public TextMeshProUGUI PlayerCountDisplay;
+
+    public Menu ClientWarningPopup;
+
+    private void Start()
     {
-        NetworkManager.Singleton.StartHost();
-        Debug.Log("Host Joined");
+        if (PlayerNetworkManager.isHost)
+        {
+            HostDetailsBt.SetActive(true);
+        }
     }
 
     private void Update()
     {
         UpdatePlayerCount();
-        UpdateTestDetails();
+    }
+
+    public void StartGame()
+    {
+        if (PlayerNetworkManager.isHost)
+        {
+            NetworkManager.SceneManager.LoadScene(MainLevel, LoadSceneMode.Single);
+        }
+        else
+        {
+            ClientWarningPopup.DisplayMenu(true);
+        }
     }
 
     public void UpdatePlayerCount()
@@ -38,16 +52,27 @@ public class PlayerLobby : NetworkBehaviour
         }
         else
         {
-            PlayerCountDisplay.text = "Waiting for host to start...!";
+            PlayerCountDisplay.text = "Waiting for host to start...";
         }
     }
 
-    public void UpdateTestDetails()
+
+    public void DisplayHostDetails()
+    {
+        HostDetails.text = getHostDetails();
+        HostDetailsPopup.DisplayMenu(true);
+    }
+    private string getHostDetails()
     {
         var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        TestDetails.text = GetLocalIPv4() + "/" + utp.ConnectionData.Port;
+
+        string hostIpConnection = "Host IP: " + GetLocalIPv4();
+        string portConnection="Port: "+ utp.ConnectionData.Port;
+
+        return hostIpConnection + "\n" + portConnection;
+
     }
-    public string GetLocalIPv4()
+    private string GetLocalIPv4()
     {
         return Dns.GetHostEntry(Dns.GetHostName()).AddressList.First(
         f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)

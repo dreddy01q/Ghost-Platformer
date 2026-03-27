@@ -3,11 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    private GameObject menuDisplay;
+    public GameObject menuDisplay;
 
     private protected void Start()
     {
-        menuDisplay = GetComponent<GameObject>();
+        //menuDisplay = GetComponentInChildren<GameObject>();
     }
 
     public void DisplayMenu(bool value)
@@ -18,6 +18,11 @@ public class Menu : MonoBehaviour
     public void LoadMenuScene(string scene)
     {
         SceneManager.LoadSceneAsync(scene);
+    }
+
+    public void CloseMenu()
+    {
+        DisplayMenu(false);
     }
 
     public void QuitGame()

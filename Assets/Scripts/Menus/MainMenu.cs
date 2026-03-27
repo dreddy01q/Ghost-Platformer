@@ -14,7 +14,7 @@ public class MainMenu : Menu
 
     // Join Game Pop Up
     [Header("Join Game Pop Up")]
-    public GameObject JoinGamePopUp;
+    public Menu JoinGamePopUp;
     private string HostIPAddress;
     public TMP_InputField HostIPInputfield;
 
@@ -33,7 +33,7 @@ public class MainMenu : Menu
 
     public void JoinGameBt()
     {
-        JoinGamePopUp.SetActive(true);
+        JoinGamePopUp.DisplayMenu(true);
     }
 
     public void JoinGamePopUpBt()
