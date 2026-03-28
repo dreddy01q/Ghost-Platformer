@@ -20,6 +20,11 @@ public class EnemyDetection : MonoBehaviour
 
     public GameObject GetTargetPlayer()
     {
+        if (checkCurrentTargetDefeated())
+        {
+            CurrentTargetPlayer = null;
+        }
+
         GameObject closestTargetPlayer = getClosestPotetialTarget();
 
         // No player in range and not chasing a player
@@ -115,6 +120,17 @@ public class EnemyDetection : MonoBehaviour
     {
         float distanceToTarget = Vector3.Distance(this.transform.position, targetPlayer.transform.position);
         return distanceToTarget >= targetForgetRange;
+    }
+
+    private bool checkCurrentTargetDefeated()
+    {
+        if (currentTargetPlayer != null) {
+            return currentTargetPlayer.GetComponent<HealthSystem>().OpponentDefeated;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

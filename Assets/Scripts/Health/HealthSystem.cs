@@ -6,8 +6,8 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] int healthMax = 3;
     
     private int health;
-
     private UniversalSoundEffects soundEffects;
+    private bool opponentDefeated = false;
 
     private void Awake()
     {
@@ -20,12 +20,14 @@ public class HealthSystem : MonoBehaviour
         get => health;
         set => health = value;
     }
+    public bool OpponentDefeated { get => opponentDefeated; set => opponentDefeated = value; }
 
     public virtual void TakeDamage(int damage)
     {
         Health-=damage;
         if (Health <= 0)
         {
+            OpponentDefeated = true;
             Defeated();
             PlaySound("defeat");
         }
@@ -58,5 +60,6 @@ public class HealthSystem : MonoBehaviour
     public void ResetHeatlth()
     {
         health = healthMax;
+        OpponentDefeated = false;
     }
 }
