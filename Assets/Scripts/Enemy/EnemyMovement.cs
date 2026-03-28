@@ -50,6 +50,8 @@ public class EnemyMovement : NetworkBehaviour
 
     private void stopEnemyMovement()
     {
+        rb.linearVelocity = Vector3.zero;
+        gameObject.transform.rotation = new Quaternion(0f, gameObject.transform.rotation.y, 0f, 0f);
         ani.SetFloat("movement", 0);
         agent.enabled = false;
     }
