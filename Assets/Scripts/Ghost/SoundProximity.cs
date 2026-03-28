@@ -17,7 +17,7 @@ public class SoundProximity : MonoBehaviour
         }
         catch(Exception e)
         {
-
+            Debug.LogException(e);
         }
     }
 
