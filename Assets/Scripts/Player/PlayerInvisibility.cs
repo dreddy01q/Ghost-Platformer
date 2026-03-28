@@ -14,24 +14,17 @@ public class PlayerInvisibility : NetworkBehaviour
 
         if (invisible)
         {
-            //NetworkObject networkPlayer = playerController.GameManage.PlayerManager.NetworkPlayers[playerController.PlayerArrayId];
             SetPlyApperanceSeverRpc(playerController.PlayerArrayId, false);
-            //playerController.plyAppereance.SetActive(false);
         }
         else
         {
-            //NetworkObject networkPlayer = playerController.GameManage.PlayerManager.NetworkPlayers[playerController.PlayerArrayId];
             SetPlyApperanceSeverRpc(playerController.PlayerArrayId, true);
-            //playerController.plyAppereance.SetActive(true);
         }
     }
 
     [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Everyone)]
-    private void SetPlyApperanceSeverRpc(int playerArradyId, bool value)
+    public void SetPlyApperanceSeverRpc(int playerArradyId, bool value)
     {
-        //NetworkObject networkPlayer = playerController.GameManage.PlayerManager.NetworkPlayers[playerArradyId];
-        //networkPlayer.GetComponent<PlayerController>().plyAppereance.SetActive(value);
-
         SetLocalApperance(playerArradyId, value);
     }
 

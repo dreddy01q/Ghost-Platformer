@@ -86,9 +86,12 @@ public class PlayerController : NetworkBehaviour
         GameManage = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManage>();
     }
 
-    public void SetPlayerSpawn(bool value)
+    public void PlayerDefeated()
     {
-        this.enabled = value;
+        this.enabled = false;
+        playerInvisibility.SetPlyApperanceSeverRpc(PlayerArrayId, false);
+        rb.linearVelocity = Vector3.zero;
+
     }
 
     public void RespawnPlayer()
@@ -108,7 +111,6 @@ public class PlayerController : NetworkBehaviour
 
         //gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
     }
-
 
 
     // Update is called once per frame
