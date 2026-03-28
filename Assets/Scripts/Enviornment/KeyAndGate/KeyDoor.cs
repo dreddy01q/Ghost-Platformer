@@ -22,7 +22,7 @@ public class KeyDoor : MonoBehaviour
 
     public void KeyAcquired()
     {
-        GameManager.CanvasManager.showText(text);
+        GameManager.CanvasManager.ShowText(text);
         keyHeld = true;
     }
 

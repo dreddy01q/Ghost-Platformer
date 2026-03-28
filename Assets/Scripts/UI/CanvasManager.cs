@@ -20,7 +20,7 @@ public class CanvasManager : MonoBehaviour
         
     }
 
-    public void showText(string text)
+    public void ShowText(string text)
     {
         TextDisplay.text = text;
         CanvasAnim.SetTrigger("showText");

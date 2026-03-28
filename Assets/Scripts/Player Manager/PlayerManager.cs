@@ -7,8 +7,10 @@ public class PlayerManager : NetworkBehaviour
 {
     // Manages player objects
     private GameManage gameManager;
-
+    private PlayerManager playerManager;
     private PlayerSpawner playerSpawner;
+
+    private SceneLoader sceneLoader;
 
 
     [Header("Player Trackers")]
@@ -28,12 +30,13 @@ public class PlayerManager : NetworkBehaviour
     {
         gameManager = GetComponent<GameManage>();
         playerSpawner=GetComponent<PlayerSpawner>();
+
+        playerManager = GetComponent<PlayerManager>();
+        sceneLoader =GetComponent<SceneLoader>();    
+
         if (IsServer)
         {
-            playerCount = PlayerNetworkManager.PlayerIds.Count;
-            Players = new GameObject[playerCount];
-            NetworkPlayers = new NetworkObject[playerCount];
-            PlayersActive = new bool[PlayerCount];
+            setPlayerArrayValues();
             foreach (ulong playerId in PlayerNetworkManager.PlayerIds)
             {
                 Debug.Log("Spawning player " + playerId);
@@ -44,6 +47,20 @@ public class PlayerManager : NetworkBehaviour
         {
             Debug.Log("Im a client");
         }
+    }
+
+    private void setPlayerArrayValues()
+    {
+        playerCount = PlayerNetworkManager.PlayerIds.Count;
+        Players = new GameObject[playerCount];
+        NetworkPlayers = new NetworkObject[playerCount];
+        PlayersActive = new bool[PlayerCount];
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void ClientDisconectSeverRpc()
+    {
+        sceneLoader.LoadPlayerLobby();
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]

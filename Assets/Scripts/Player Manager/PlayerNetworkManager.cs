@@ -53,7 +53,16 @@ public class PlayerNetworkManager : MonoBehaviour
     }
 
     private void ClientDisonnect(ulong clientID) {
-        Debug.Log("Player " + clientID + " has left");
+        Debug.Log("Client discconeted");
+        try
+        {
+            PlayerManager playerManager = GetComponent<PlayerManager>();
+            playerManager.ClientDisconectSeverRpc();
+        }
+        catch
+        {
+            Debug.Log("discconeted failed");
+        }
     }
 
     public string GetLocalIPv4()

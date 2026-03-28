@@ -22,7 +22,7 @@ public class HintCollider : MonoBehaviour
             {
                 hintShown = true;
                 Debug.Log(canvasManager);
-                canvasManager.showText(hint);
+                canvasManager.ShowText(hint);
             }
         }
     }

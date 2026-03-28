@@ -32,7 +32,7 @@ public class GameManage : NetworkBehaviour
     {
         GhostManager.GhostFound();
         string message = GhostManager.getGhostCountString() + " ghosts found.";
-        CanvasManager.showText(message);
+        CanvasManager.ShowText(message);
         GameSoundEffects.PlaySound(GameSoundEffects.SoundType_GhostFound);
     }
 
