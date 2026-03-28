@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerInvisibility : MonoBehaviour
+public class PlayerInvisibility : NetworkBehaviour
 {
     PlayerController playerController;
     private void Start()
@@ -13,11 +14,36 @@ public class PlayerInvisibility : MonoBehaviour
 
         if (invisible)
         {
-            playerController.plyAppereance.SetActive(false);
+            //NetworkObject networkPlayer = playerController.GameManage.PlayerManager.NetworkPlayers[playerController.PlayerArrayId];
+            SetPlyApperanceSeverRpc(playerController.PlayerArrayId, false);
+            //playerController.plyAppereance.SetActive(false);
         }
         else
         {
-            playerController.plyAppereance.SetActive(true);
+            //NetworkObject networkPlayer = playerController.GameManage.PlayerManager.NetworkPlayers[playerController.PlayerArrayId];
+            SetPlyApperanceSeverRpc(playerController.PlayerArrayId, true);
+            //playerController.plyAppereance.SetActive(true);
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Everyone)]
+    private void SetPlyApperanceSeverRpc(int playerArradyId, bool value)
+    {
+        //NetworkObject networkPlayer = playerController.GameManage.PlayerManager.NetworkPlayers[playerArradyId];
+        //networkPlayer.GetComponent<PlayerController>().plyAppereance.SetActive(value);
+
+        SetLocalApperance(playerArradyId, value);
+    }
+
+    private void SetLocalApperance(int playerArradyId, bool value)
+    {
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+            if (controller.PlayerArrayId == playerArradyId)
+            {
+                controller.plyAppereance.SetActive(value);
+            }
         }
     }
 }

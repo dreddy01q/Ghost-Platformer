@@ -108,7 +108,7 @@ public class PlayerController : NetworkBehaviour
 
         //gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
     }
-   
+
 
 
     // Update is called once per frame
