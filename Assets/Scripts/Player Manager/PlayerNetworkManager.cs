@@ -4,7 +4,6 @@ using System.Net;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
-using static Unity.VisualScripting.Icons;
 
 public class PlayerNetworkManager : MonoBehaviour
 {
@@ -16,6 +15,8 @@ public class PlayerNetworkManager : MonoBehaviour
 
     public void JoinPlayerHost(bool LANGame)
     {
+        NetworkManager.Singleton.GetComponent<UnityTransport>().UseWebSockets = true;
+
         if (LANGame)
         {
             var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
@@ -27,6 +28,8 @@ public class PlayerNetworkManager : MonoBehaviour
 
     public void JoinPlayerClient(bool LANGame, string hostIp="", ushort hostPost=7777)
     {
+        NetworkManager.Singleton.GetComponent<UnityTransport>().UseWebSockets = true;
+
         if (LANGame)
         {
             if (string.IsNullOrEmpty(hostIp))
