@@ -11,9 +11,13 @@ public class MainMenu : Menu
 
     private PlayerNetworkManager playerNetworkManager;
 
+    [Header("Local/LAN")]
+    public Menu LocalGameMenu;
+    public Menu LANGameMenu;
+
 
     // Join Game Pop Up
-    [Header("Join Game Pop Up")]
+    [Header("Join LAN Game Pop Up")]
     public Menu JoinGamePopUp;
     private string HostIPAddress;
     public TMP_InputField HostIPInputfield;
@@ -24,14 +28,37 @@ public class MainMenu : Menu
         playerNetworkManager=GetComponent<PlayerNetworkManager>();
     }
 
-
-    public void HostGameBt()
+    public void OpenLocalGame()
     {
-        playerNetworkManager.JoinPlayerHost();
+        LocalGameMenu.DisplayMenu(true);
+    }
+
+    public void LocalHostGameBt()
+    {
+        playerNetworkManager.JoinPlayerHost(false);
         base.LoadMenuScene(PlayerLobbyScene);
     }
 
-    public void JoinGameBt()
+    public void LocalJoinGameBt()
+    {
+        playerNetworkManager.JoinPlayerClient(false);
+        base.LoadMenuScene(PlayerLobbyScene);
+    }
+
+
+
+    public void OpenLANGame()
+    {
+        LANGameMenu.DisplayMenu(true);
+    }
+
+    public void LANHostGameBt()
+    {
+        playerNetworkManager.JoinPlayerHost(true);
+        base.LoadMenuScene(PlayerLobbyScene);
+    }
+
+    public void LANJoinGameBt()
     {
         JoinGamePopUp.DisplayMenu(true);
     }
@@ -42,22 +69,7 @@ public class MainMenu : Menu
         if (string.IsNullOrEmpty(HostIPAddress)) {
             return;
         }
-        playerNetworkManager.JoinPlayerClient(HostIPAddress);
+        playerNetworkManager.JoinPlayerClient(true, HostIPAddress);
         base.LoadMenuScene(PlayerLobbyScene);
     }
-
-
-
-    public void StartGame()
-    {
-        PlayerInstance.PlayerHost = true;
-        //SceneManager.LoadSceneAsync(multiplayerGameScene);
-    }
-
-    public void JoinGame()
-    {
-        PlayerInstance.PlayerHost = false;
-        //SceneManager.LoadSceneAsync(multiplayerGameScene);
-    }
-
 }

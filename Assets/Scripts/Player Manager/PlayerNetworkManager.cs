@@ -4,6 +4,7 @@ using System.Net;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
+using static Unity.VisualScripting.Icons;
 
 public class PlayerNetworkManager : MonoBehaviour
 {
@@ -13,20 +14,29 @@ public class PlayerNetworkManager : MonoBehaviour
     private static List<ulong> playerIds = new List<ulong>();
     public static List<ulong> PlayerIds { get => playerIds; set => playerIds = value; }
 
-    public void JoinPlayerHost()
+    public void JoinPlayerHost(bool LANGame)
     {
-        var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        utp.SetConnectionData(GetLocalIPv4(), 7777);
+        if (LANGame)
+        {
+            var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            utp.SetConnectionData(GetLocalIPv4(), 7777);
+        }
         NetworkManager.Singleton.StartHost();
         isHost = true;
     }
 
-    public void JoinPlayerClient(string hostIp, ushort hostPost=7777)
+    public void JoinPlayerClient(bool LANGame, string hostIp="", ushort hostPost=7777)
     {
-        var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        utp.SetConnectionData(hostIp, hostPost);
+        if (LANGame)
+        {
+            if (string.IsNullOrEmpty(hostIp))
+            {
+                return;
+            }
+            var utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            utp.SetConnectionData(hostIp, hostPost);
+        }
         bool joined=NetworkManager.Singleton.StartClient();
-        Debug.Log("Joined -> " + joined+" "+ utp.ConnectionData.Address);
     }
 
     public void DisconnectClient()
