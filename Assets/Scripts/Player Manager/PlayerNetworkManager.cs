@@ -4,8 +4,9 @@ using System.Net;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PlayerNetworkManager : MonoBehaviour
+public class PlayerNetworkManager : NetworkBehaviour
 {
     public static bool isHost = false;
 
@@ -44,7 +45,13 @@ public class PlayerNetworkManager : MonoBehaviour
 
     public void DisconnectClient()
     {
-        NetworkManager.Singleton.DisconnectClient(PlayerInstance.PlayerClientId);
+        DisconnectClientRpc(PlayerInstance.PlayerClientId);
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void DisconnectClientRpc(ulong playerClientId)
+    {
+        NetworkManager.Singleton.DisconnectClient(playerClientId);
     }
 
     private void OnEnable()
@@ -66,11 +73,25 @@ public class PlayerNetworkManager : MonoBehaviour
     }
 
     private void ClientDisonnect(ulong clientID) {
-        Debug.Log("Client discconeted");
+        Debug.Log("Client "+ clientID + " has been disconnected");
+
+        PlayerManager playerManager = GetComponent<PlayerManager>();
+        if (isHost)
+        {
+            PlayerIds.Clear();
+            NetworkManager.Singleton.Shutdown();
+        }
+        SceneLoader sceneLoader = GetComponent<SceneLoader>();
+        SceneManager.LoadScene(sceneLoader.MainMenu);
+
+        //sceneLoader.LoadMainMenu();
+        //playerManager.ReturnToMenuRpc();
+
         try
         {
-            PlayerManager playerManager = GetComponent<PlayerManager>();
-            playerManager.ClientDisconectSeverRpc();
+            //NetworkManager.Singleton.DisconnectClient(clientID);
+            //PlayerManager playerManager = GetComponent<PlayerManager>();
+            //playerManager.ClientDisconectRpc();
         }
         catch
         {

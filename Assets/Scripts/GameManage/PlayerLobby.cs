@@ -79,4 +79,9 @@ public class PlayerLobby : NetworkBehaviour
         .ToString();
     }
 
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

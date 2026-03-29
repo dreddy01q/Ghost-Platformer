@@ -5,6 +5,7 @@ public class SceneLoader : NetworkBehaviour
 {
     public string MainGameScene;
     public string PlayerLobby;
+    public string MainMenu;
 
     public void ReloadGame()
     {
@@ -14,6 +15,11 @@ public class SceneLoader : NetworkBehaviour
     public void LoadPlayerLobby()
     {
         jointLoadScene(PlayerLobby);
+    }
+
+    public void LoadMainMenu()
+    {
+        jointLoadScene(MainMenu);
     }
 
     private void jointLoadScene(string scene)

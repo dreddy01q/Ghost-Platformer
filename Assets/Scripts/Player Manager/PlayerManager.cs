@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : NetworkBehaviour
 {
@@ -57,10 +58,26 @@ public class PlayerManager : NetworkBehaviour
         PlayersActive = new bool[PlayerCount];
     }
 
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    public void ClientDisconectSeverRpc()
+    public void ReturnPlayersToMainMenu()
     {
-        sceneLoader.LoadPlayerLobby();
+        foreach(NetworkObject player in networkPlayers)
+        {
+            try
+            {
+                player.GetComponent<PlayerController>().GameManage.PlayerManager.ReturnToMenuRpc();
+            }
+            catch
+            {
+                Debug.Log("Cannot returbn " );
+            }
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Everyone)]
+    public void ReturnToMenuRpc()
+    {
+        Debug.Log(OwnerClientId + " will return to main menu");
+        SceneManager.LoadScene(sceneLoader.MainGameScene);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
