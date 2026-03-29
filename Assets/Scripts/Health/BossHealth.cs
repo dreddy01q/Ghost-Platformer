@@ -4,9 +4,9 @@ public class BossHealth : EnemyHealth
 {
     public GameObject Key;
 
-    public override void defeated()
+    public override void Defeated()
     {
-        base.defeated();
+        base.Defeated();
 
         DropKey();
     }

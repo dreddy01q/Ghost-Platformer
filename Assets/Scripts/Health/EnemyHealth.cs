@@ -3,28 +3,28 @@ using UnityEngine;
 
 public class EnemyHealth : HealthSystem
 {
-    private Enemy enemyController;
+    private EnemyController enemyController;
     
     public ParticleSystem smokeParticle;
 
-    public Enemy EnemyController { get => enemyController; set => enemyController = value; }
+    public EnemyController EnemyController { get => enemyController; set => enemyController = value; }
 
     void Start()
     {
-        EnemyController = GetComponent<Enemy>();
+        EnemyController = GetComponent<EnemyController>();
     }
     
-    public override void takeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         Debug.Log("Take Damage");
-        base.takeDamage(damage);
+        base.TakeDamage(damage);
         EnemyController.Ani.SetFloat("health", Health);
         EnemyController.Ani.SetTrigger("hit");
     }
 
-    public override void defeated()
+    public override void Defeated()
     {
-        base.defeated();
+        base.Defeated();
         EnemyController.defeatEnemy();
         smokeParticle.Play();
 

@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public Enemy[] enemies;
+    public EnemyController[] enemies;
+
+    private void Awake()
+    {
+        enemies=GetComponentsInChildren<EnemyController>();
+    }
 
     // Update is called once per frame
     void Update()
     {
-        foreach (Enemy enemy in enemies)
+        foreach (EnemyController enemy in enemies)
         {
             enemy.ManualUpdate();
         }

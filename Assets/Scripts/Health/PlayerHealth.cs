@@ -3,24 +3,33 @@ using UnityEngine;
 public class PlayerHealth : HealthSystem
 {
     private PlayerController playerController;
-    
+    private PlayerDeath playerDeath;
     public ParticleSystem smokeParticle;
     
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        playerDeath=GetComponent<PlayerDeath>();
     }
     
-    public override void takeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
-        base.takeDamage(damage);
+        base.TakeDamage(damage);
     }
 
-    public override void defeated()
+    public override void Defeated()
     {
-        base.defeated();
-        playerController.enabled = false;
+        base.Defeated();
+
+        playerController.PlayerDefeated();
+        playerDeath.SetPlayerDeath();
+
         smokeParticle.Play();
-        playerController.GameManage.endGame(false);
+
+        //bool gameOver = playerController.GameManage.PlayerManager.PlayerDeath(playerController.PlayerArrayId);
+        //if (!gameOver)
+        {
+            playerDeath.StartRespawn();
+        }
     }
 }
