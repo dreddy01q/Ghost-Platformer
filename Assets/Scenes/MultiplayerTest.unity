@@ -393,12 +393,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 66283937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ddc82c2e5304554998d8fdd9b995230, type: 3}
+  m_Script: {fileID: 11500000, guid: d2fa1b3d0656f5f4ea6e0b3ef85a888e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerNetwork
-  PlayerManager: {fileID: 1976413025}
-  enemyManager: {fileID: 1898808431}
-  enemy: {fileID: 0}
 --- !u!1 &66361824
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,8 +3387,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 66283939}
-        m_TargetAssemblyTypeName: MultiplayerNetwork, Assembly-CSharp
-        m_MethodName: StartHost
+        m_TargetAssemblyTypeName: MultiplayerNetworkTest, Assembly-CSharp
+        m_MethodName: StartHostPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3930,7 +3927,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 66283939}
-        m_TargetAssemblyTypeName: MultiplayerNetwork, Assembly-CSharp
+        m_TargetAssemblyTypeName: MultiplayerNetworkTest, Assembly-CSharp
         m_MethodName: StartClient
         m_Mode: 1
         m_Arguments:
@@ -7305,6 +7302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730272ef2d0c84843bc0a3064fb9eb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManage
+  ShowTopMostFoldoutHeaderGroup: 1
   Canvas: {fileID: 2018697871}
 --- !u!4 &1976413022
 Transform:
@@ -8019,8 +8017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c977af784750ec4c93563910a34ae49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Menu
-  mainGameScene: MainLevel
-  mainMenuScene: MainMenu
+  menuDisplay: {fileID: 0}
 --- !u!1 &2020913743
 GameObject:
   m_ObjectHideFlags: 0

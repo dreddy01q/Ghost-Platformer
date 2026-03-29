@@ -1,11 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -64,14 +58,13 @@ public class PlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        ani = GetComponent<Animator>();
-
         if (IsOwner)
         {
             MainCameraObject.SetActive(true);
             PlayerUI.SetActive(true);
         }
 
+        ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -89,7 +82,7 @@ public class PlayerController : NetworkBehaviour
     public void PlayerDefeated()
     {
         this.enabled = false;
-        playerInvisibility.SetPlyApperanceSeverRpc(PlayerArrayId, false);
+        playerInvisibility.SetPlyApperanceRpc(PlayerArrayId, false);
         rb.linearVelocity = Vector3.zero;
 
     }

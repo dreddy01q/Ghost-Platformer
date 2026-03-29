@@ -14,16 +14,16 @@ public class PlayerInvisibility : NetworkBehaviour
 
         if (invisible)
         {
-            SetPlyApperanceSeverRpc(playerController.PlayerArrayId, false);
+            SetPlyApperanceRpc(playerController.PlayerArrayId, false);
         }
         else
         {
-            SetPlyApperanceSeverRpc(playerController.PlayerArrayId, true);
+            SetPlyApperanceRpc(playerController.PlayerArrayId, true);
         }
     }
 
     [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Everyone)]
-    public void SetPlyApperanceSeverRpc(int playerArradyId, bool value)
+    public void SetPlyApperanceRpc(int playerArradyId, bool value)
     {
         SetLocalApperance(playerArradyId, value);
     }
