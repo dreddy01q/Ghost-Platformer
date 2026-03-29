@@ -35,8 +35,6 @@ public class PlayerDeath : NetworkBehaviour
 
     public void StartRespawn()
     {
-        Debug.Log("Called here");
-        Debug.Log("I died name is " + gameObject.name + ". My ID is " + playerController.PlayerId + ". My array id is " + playerController.PlayerArrayId);
         if (!respawning && IsOwner)
         {
             respawning = true;

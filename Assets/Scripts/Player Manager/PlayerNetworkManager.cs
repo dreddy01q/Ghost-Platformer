@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerNetworkManager : NetworkBehaviour
@@ -73,8 +72,6 @@ public class PlayerNetworkManager : NetworkBehaviour
     }
 
     private void ClientDisonnect(ulong clientID) {
-        Debug.Log("Client "+ clientID + " has been disconnected");
-
         PlayerManager playerManager = GetComponent<PlayerManager>();
         if (isHost)
         {
@@ -83,20 +80,6 @@ public class PlayerNetworkManager : NetworkBehaviour
         }
         SceneLoader sceneLoader = GetComponent<SceneLoader>();
         SceneManager.LoadScene(sceneLoader.MainMenu);
-
-        //sceneLoader.LoadMainMenu();
-        //playerManager.ReturnToMenuRpc();
-
-        try
-        {
-            //NetworkManager.Singleton.DisconnectClient(clientID);
-            //PlayerManager playerManager = GetComponent<PlayerManager>();
-            //playerManager.ClientDisconectRpc();
-        }
-        catch
-        {
-            Debug.Log("discconeted failed");
-        }
     }
 
     public string GetLocalIPv4()

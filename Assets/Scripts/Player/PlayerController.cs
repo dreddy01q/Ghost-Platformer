@@ -15,7 +15,6 @@ public class PlayerController : NetworkBehaviour
     public GameObject plyAppereance;
 
     private Rigidbody rb;
-    private Animator ani;
 
 
     private GameManage gameManage;
@@ -50,9 +49,6 @@ public class PlayerController : NetworkBehaviour
     {
         this.playerId = playerID;
         this.playerArrayId = playerArrayID;
-
-        Debug.Log("My name is "+gameObject.name+". My ID is " + playerId + ". My array id is " + playerArrayId);
-        //Debug.Log(gameManage.PlayerManager.PlayersActive[playerArrayId]);
     }
 
 
@@ -64,7 +60,6 @@ public class PlayerController : NetworkBehaviour
             PlayerUI.SetActive(true);
         }
 
-        ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -101,8 +96,6 @@ public class PlayerController : NetworkBehaviour
         {
             gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
         }
-
-        //gameManage.PlayerManager.RespawnPlayer(playerId, PlayerArrayId);
     }
 
 
@@ -178,11 +171,6 @@ public class PlayerController : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             playerAttack.Scare();
-        }
-        
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            //OnScare();
         }
     }
 

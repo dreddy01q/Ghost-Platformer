@@ -76,7 +76,6 @@ public class PlayerManager : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Everyone)]
     public void ReturnToMenuRpc()
     {
-        Debug.Log(OwnerClientId + " will return to main menu");
         SceneManager.LoadScene(sceneLoader.MainGameScene);
     }
 
