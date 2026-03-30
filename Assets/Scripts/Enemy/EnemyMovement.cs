@@ -5,13 +5,10 @@ using UnityEngine.AI;
 public class EnemyMovement : NetworkBehaviour
 {
     private EnemyDetection enemyDetection;
-    //private GameObject currentTargetPlayer;
 
     private NavMeshAgent agent;
     private Animator ani;
     private Rigidbody rb;
-
-    //public GameObject CurrentTargetPlayer { get => currentTargetPlayer; set => currentTargetPlayer = value; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

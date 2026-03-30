@@ -17,23 +17,9 @@ public class GhostManager : MonoBehaviour
         GhostCount = ghosts.Length;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void GhostFound()
     {
         foundCount++;
-
-        if (foundCount == GhostCount) {
-            Debug.Log(getGhostCountString() + " ghosts found.");
-        }
-        else
-        {
-            Debug.Log("All ghosts freed!");
-        }
     }
 
     public string getGhostCountString()

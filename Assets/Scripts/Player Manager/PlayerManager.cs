@@ -40,13 +40,8 @@ public class PlayerManager : NetworkBehaviour
             setPlayerArrayValues();
             foreach (ulong playerId in PlayerNetworkManager.PlayerIds)
             {
-                Debug.Log("Spawning player " + playerId);
                 IntialSpawnPlayer(playerId);
             }
-        }
-        else
-        {
-            Debug.Log("Im a client");
         }
     }
 
@@ -68,7 +63,7 @@ public class PlayerManager : NetworkBehaviour
             }
             catch
             {
-                Debug.Log("Cannot returbn " );
+
             }
         }
     }
@@ -91,8 +86,6 @@ public class PlayerManager : NetworkBehaviour
         playerSpawnSetup(playerNetworkObject, playerArrayIdCount);
 
         playerArrayIdCount++;
-
-
     }
 
     public void RespawnPlayer(ulong playerId, int playerArrayId)

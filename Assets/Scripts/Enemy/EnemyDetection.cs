@@ -11,8 +11,6 @@ public class EnemyDetection : MonoBehaviour
 
     public GameObject CurrentTargetPlayer { get => currentTargetPlayer; set => currentTargetPlayer = value; }
 
-    //public GameObject CurrentPlayerTarget { get => currentPlayerTarget; set => currentPlayerTarget = value; }
-
     private void Start()
     {
         playerManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerManager>();
@@ -74,15 +72,7 @@ public class EnemyDetection : MonoBehaviour
                         closestPly = player;
                     }
                 }
-                else
-                {
-                    Debug.Log("Where are you!");
-                }
             }
-        }
-        if (closestPly != null)
-        {
-            Debug.Log("IM PURSING " + closestPly.name);
         }
 
         return closestPly;

@@ -47,11 +47,6 @@ public class EnemyAttack : NetworkBehaviour
         return Vector3.Distance(transform.position, targetPlayer.transform.position) < attackRange;
     }
 
-    private bool checkAttackCooldown()
-    {
-        return attackCooldownCount <=0 ? true : false;
-    }
-
     private void enemyAttack()
     {
         attackCooldownCount = attackCooldown;
